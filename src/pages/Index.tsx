@@ -45,7 +45,7 @@ const Index = () => {
             <div className="text-center lg:text-left order-2 lg:order-1">
               <p className="text-base sm:text-lg font-serif text-gray-700 mb-4">Your Journey, in Perfect Harmony.</p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-black mb-4 sm:mb-6 leading-tight">
-                Study Smarter,<br />Not Harder
+                Navigate new cultures with confidence
               </h1>
               <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
                 Take control of your international experience with our all-in-one student platform. Connect with peers, discover local culture, and thrive abroad—without the overwhelm.
@@ -114,6 +114,30 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Cities Grid */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Choose Your Destination</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Select a city to access events, resources, and local culture
+          </p>
+        </div>
+        
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {cities.map((city) => (
+            <CityCard
+              key={city.slug}
+              name={city.name}
+              country={city.country}
+              slug={city.slug}
+              gradient={city.gradient}
+            />
+          ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -162,30 +186,6 @@ const Index = () => {
                 Eliminate cultural barriers with a comprehensive guide to local customs, language tips, and essential resources that help you adapt—fast.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Cities Grid */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Choose Your Destination</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Select a city to access events, resources, and local culture
-          </p>
-        </div>
-        
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {cities.map((city) => (
-            <CityCard
-              key={city.slug}
-              name={city.name}
-              country={city.country}
-              slug={city.slug}
-              gradient={city.gradient}
-            />
-          ))}
           </div>
         </div>
       </section>
