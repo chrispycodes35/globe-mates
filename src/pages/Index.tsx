@@ -1,4 +1,5 @@
 import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe } from "lucide-react";
+import { Link } from "react-router-dom";
 import CityCard from "@/components/CityCard";
 
 const cities = [
@@ -19,7 +20,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <span className="font-bold text-xl">GlobeMates</span>
+            <Link to="/" className="font-bold text-xl">GlobeMates</Link>
             
             {/* Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
@@ -29,10 +30,13 @@ const Index = () => {
               <a href="#" className="text-gray-700 hover:text-black font-medium text-sm">Blog</a>
             </nav>
             
-            {/* CTA Button */}
-            <button className="border border-gray-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-50 transition-colors">
-              GET STARTED →
-            </button>
+            {/* CTA Buttons */}
+            <div className="flex items-center space-x-4">
+              <Link to="/login" className="text-gray-700 hover:text-black font-medium text-sm">Login</Link>
+              <Link to="/signup" className="border border-gray-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-50 transition-colors">
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -50,9 +54,9 @@ const Index = () => {
               <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
                 Take control of your international experience with our all-in-one student platform. Connect with peers, discover local culture, and thrive abroad—without the overwhelm.
               </p>
-              <button className="border border-gray-300 bg-white px-5 py-2.5 sm:px-6 sm:py-3 rounded text-sm sm:text-base font-medium hover:bg-gray-50 transition-colors inline-flex items-center">
+              <Link to="/signup" className="border border-gray-300 bg-white px-5 py-2.5 sm:px-6 sm:py-3 rounded text-sm sm:text-base font-medium hover:bg-gray-50 transition-colors inline-flex items-center">
                 GET STARTED →
-              </button>
+              </Link>
             </div>
             
             {/* Right Visual - International Students */}
