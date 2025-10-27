@@ -2,9 +2,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { User, LogOut, MapPin, Users, School, Settings, Calendar, Music, Utensils, Camera, Globe, Coffee } from 'lucide-react';
-import CityCard from '@/components/CityCard';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,20 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-const cities = [
-  { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
-  { name: "Paris", country: "France", slug: "paris", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
-  { name: "London", country: "England", slug: "london", gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" },
-  { name: "New York City", country: "USA", slug: "new-york", gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
-  { name: "Copenhagen", country: "Denmark", slug: "copenhagen", gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 %)" },
-  { name: "Milan", country: "Italy", slug: "milan", gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
-  { name: "Rome", country: "Italy", slug: "rome", gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)" },
-];
-
-// Sample events data organized by categories
 const getEventsForLocation = (location: string) => {
-  const cityName = location?.toLowerCase().split(',')[0] || '';
-  
   return {
     programEvents: [
       { title: "Welcome Orientation", date: "Every Monday 2PM", location: "Student Center", icon: School, color: "text-blue-600" },
@@ -53,11 +39,12 @@ const getEventsForLocation = (location: string) => {
   };
 };
 
-const Dashboard = () => {
+const Events = () => {
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -84,31 +71,27 @@ const Dashboard = () => {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 fade-in">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-pink-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading your dashboard...</p>
+          <p className="text-gray-600 text-lg">Loading events...</p>
         </div>
       </div>
     );
   }
 
-  // Find user's destination city if available
-  const userCity = userData?.location ? cities.find(city => 
-    city.name.toLowerCase() === userData.location.split(',')[0].toLowerCase()
-  ) : null;
-
-  // Get events for user's location
   const events = userData?.location ? getEventsForLocation(userData.location) : null;
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <div className="min-h-screen bg-white fade-in">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm smooth-transition">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 fade-in">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/dashboard" className="font-bold text-xl">GlobeMates</Link>
-            
+            <Link to="/dashboard" className="font-bold text-xl text-gray-900 hover:text-pink-600 transition-colors">
+              GlobeMates
+            </Link>
             <nav className="hidden md:flex items-center space-x-6">
               <Link to="/dashboard" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Home</Link>
-              <Link to="/events" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Events</Link>
+              <Link to="/events" className="text-pink-600 font-medium text-sm border-b-2 border-pink-600 pb-1">Events</Link>
               <Link to="/services" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Services</Link>
               <Link to="/features" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Features</Link>
               <Link to="/blog" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Blog</Link>
@@ -117,7 +100,7 @@ const Dashboard = () => {
             <div className="flex items-center space-x-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 transition-all hover:scale-110">
+                  <button className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-600 hover:身高-pink-700 transition-all hover:scale-110">
                     <Avatar className="w-10 h-10">
                       <AvatarFallback className="bg-pink-600 text-white font-semibold">
                         {userData?.school?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'U'}
@@ -151,7 +134,7 @@ const Dashboard = () => {
                     className="cursor-pointer"
                   >
                     <Settings className="mr-2 h-4 w-4" />
-                    <span>Dashboard Settings</span>
+                    <span>Dashboard</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
@@ -172,93 +155,64 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Welcome Section */}
-      <section className="relative pt-32 pb-20 px-4 bg-gradient-to-br from-orange-200 via-pink-300 to-pink-400">
+      <main className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center fade-in-delay-1">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Welcome back{userData && userData.school ? ` from ${userData.school}` : ''}! 👋
+          <div className="text-center mb-16">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              Events & Activities
             </h1>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto mb-8">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {userData?.location 
-                ? `Ready to explore ${userData.location}? Let's make your study abroad experience unforgettable.`
-                : 'Your study abroad journey starts here. Discover cities, connect with peers, and immerse yourself in local culture.'}
+                ? `Discover what's happening in ${userData.location}`
+                : 'Find exciting events and activities in your study abroad destination'}
             </p>
           </div>
 
-          {/* Quick Stats or User Info */}
-          {userData && (
-            <div className="grid md:grid-cols-3 gap-6 mt-12 fade-in-delay-2">
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg card-animate smooth-transition hover:shadow-xl hover:scale-105">
-                <School className="w-8 h-8 text-pink-600 mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-1">Your Program</h3>
-                <p className="text-gray-600">{userData.program || 'Not specified'}</p>
-              </div>
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg card-animate smooth-transition hover:shadow-xl hover:scale-105">
-                <MapPin className="w-8 h-8 text-pink-600 mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-1">Destination</h3>
-                <p className="text-gray-600">{userData.location || 'Not specified'}</p>
-              </div>
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg card-animate smooth-transition hover:shadow-xl hover:scale-105">
-                <Users className="w-8 h-8 text-pink-600 mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-1">Group</h3>
-                <p className="text-gray-600">Find study buddies in your city</p>
-              </div>
+          {events ? (
+            <div className="grid md:grid-cols-2 gap-8 fade-in-delay-1">
+              {[
+                { title: "Program Events", icon: School, color: "text-blue-600", events: events.programEvents },
+                { title: "Student-Led", icon: Users, color: "text-green-600", events: events.studentLed },
+                { title: "Local Events", icon: MapPin, color: "text-purple-600", events: events.localEvents },
+                { title: "Regional", icon: Globe, color: "text-indigo-600", events: events.broaderLocation },
+              ].map((category, idx) => (
+                <div key={idx} className="bg-white rounded-xl shadow-lg p-6 card-animate">
+                  <div className="flex items-center space-x-3 mb-6">
+                    <category.icon className={`w-6 h-6 ${category.color}`} />
+                    <h2 className="text-2xl font-bold">{category.title}</h2>
+                  </div>
+                  <div className="space-y-4">
+                    {category.events.map((event, eventIdx) => (
+                      <div key={eventIdx} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <event.icon className={`w-5 h-5 ${event.color} mt-1 flex-shrink-0`} />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-gray-900 mb-1">{event.title}</h3>
+                          <p className="text-sm text-gray-600 mb-1">{event.date}</p>
+                          <p className="text-sm text-gray-500">{event.location}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+              <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">No Events Available</h2>
+              <p className="text-gray-600">Add your study abroad destination to your profile to see events.</p>
+              <Link to="/profile">
+                <button className="mt-6 bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors">
+                  Update Profile
+                </button>
+              </Link>
             </div>
           )}
         </div>
-      </section>
-
-      {/* Events Section */}
-
-
-      {/* Cities Grid */}
-      <section className="py-20 px-4 fade-in-delay-3">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              {userCity ? `Your Journey to ${userCity.name}` : 'Explore Your Destination'}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Select a city to access events, resources, and local knowledge
-            </p>
-          </div>
-        
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {cities.map((city, index) => (
-              <div 
-                key={city.slug}
-                className={`card-animate ${
-                  userCity && city.slug === userCity.slug 
-                    ? 'ring-4 ring-pink-500 ring-offset-2' 
-                    : ''
-                }`}
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <CityCard
-                  name={city.name}
-                  country={city.country}
-                  slug={city.slug}
-                  gradient={city.gradient}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 bg-white border-t">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-gray-500 text-sm">
-              © 2025 GlobeMates. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      </main>
     </div>
   );
 };
 
-export default Dashboard;
+export default Events;
+

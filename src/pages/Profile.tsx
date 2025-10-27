@@ -59,9 +59,10 @@ const Profile = () => {
             </Link>
             <nav className="hidden md:flex items-center space-x-6">
               <Link to="/dashboard" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Home</Link>
-              <Link to="/dashboard/services" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Services</Link>
-              <Link to="/dashboard/features" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Features</Link>
-              <Link to="/dashboard/blog" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Blog</Link>
+              <Link to="/events" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Events</Link>
+              <Link to="/services" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Services</Link>
+              <Link to="/features" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Features</Link>
+              <Link to="/blog" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Blog</Link>
             </nav>
             
             <div className="flex items-center space-x-4">

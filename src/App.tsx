@@ -10,6 +10,10 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
+import Events from "./pages/Events";
+import Services from "./pages/Services";
+import Features from "./pages/Features";
+import Blog from "./pages/Blog";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -41,6 +45,38 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/events" 
+            element={
+              <ProtectedRoute>
+                <Events />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/services" 
+            element={
+              <ProtectedRoute>
+                <Services />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/features" 
+            element={
+              <ProtectedRoute>
+                <Features />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/blog" 
+            element={
+              <ProtectedRoute>
+                <Blog />
               </ProtectedRoute>
             } 
           />
