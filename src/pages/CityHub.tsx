@@ -178,17 +178,17 @@ const CityHub = () => {
 
   if (!city) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-background fade-in">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">City Not Found</h1>
-          <Button onClick={() => navigate("/")}>Return Home</Button>
+          <Button onClick={() => navigate("/dashboard")}>Return to Dashboard</Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background fade-in">
       {/* Hero Section */}
       <div className="relative h-[400px] overflow-hidden">
         <div 
@@ -202,11 +202,11 @@ const CityHub = () => {
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
           <Button 
             variant="ghost" 
-            className="self-start mb-6 text-white hover:bg-white/20"
-            onClick={() => navigate("/")}
+            className="self-start mb-6 text-white hover:bg-white/20 fade-in-delay-1"
+            onClick={() => navigate("/dashboard")}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Cities
+            Back to Dashboard
           </Button>
           
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">

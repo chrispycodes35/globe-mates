@@ -1,6 +1,9 @@
-import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe, User, LogOut } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import CityCard from "@/components/CityCard";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from "../firebase";
+import { Button } from "@/components/ui/button";
 
 const cities = [
   { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
@@ -13,6 +16,8 @@ const cities = [
 ];
 
 const Index = () => {
+  const [user] = useAuthState(auth);
+  
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -32,10 +37,33 @@ const Index = () => {
             
             {/* CTA Buttons */}
             <div className="flex items-center space-x-4">
-              <Link to="/login" className="text-gray-700 hover:text-black font-medium text-sm">Login</Link>
-              <Link to="/signup" className="border border-gray-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-50 transition-colors">
-                Sign Up
-              </Link>
+              {user ? (
+                <>
+                  <Link to="/profile" className="flex items-center space-x-2 text-gray-700 hover:text-black font-medium text-sm">
+                    <User className="w-4 h-4" />
+                    <span>Profile</span>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      auth.signOut();
+                      window.location.reload();
+                    }}
+                    className="flex items-center space-x-2"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="text-gray-700 hover:text-black font-medium text-sm">Login</Link>
+                  <Link to="/signup" className="border border-gray-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
