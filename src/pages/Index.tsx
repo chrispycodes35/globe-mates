@@ -123,52 +123,17 @@ const Index = () => {
         </div>
         
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Content - Main Headline */}
-            <div>
-              <p className="text-base sm:text-lg text-white/90 mb-4">Your Journey, in Perfect Harmony.</p>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                Navigate new cultures with <span className="italic font-serif">confidence</span>
-              </h1>
-              <Link to="/signup" className="px-6 py-3 rounded text-base font-medium transition-colors inline-flex items-center" style={{ backgroundColor: '#FF9C00', color: '#000' }}>
-                GET STARTED →
-              </Link>
-            </div>
-            
-            {/* Right Content - Info Box */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-2xl">
-              <p className="text-lg text-gray-800 mb-6 leading-relaxed">
-                Explore your new world with confidence: find peers, cultural events, and trusted resources all in one place
-              </p>
-              
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <Users className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Connect with Peers</h3>
-                    <p className="text-sm text-gray-600">Match with students from your country or with similar interests</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-3">
-                  <Calendar className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Discover Events</h3>
-                    <p className="text-sm text-gray-600">Stay ahead with local cultural activities and social gatherings</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Local Resources</h3>
-                    <p className="text-sm text-gray-600">Access guides to customs, language tips, and essential resources</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
+          <p className="text-base sm:text-lg text-white/90 mb-4">Your Journey, in Perfect Harmony.</p>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            Navigate new cultures with <span className="italic font-serif">confidence</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
+            Explore your new world with confidence: find peers, cultural events, and trusted resources all in one place
+          </p>
+          <Link to="/signup" className="px-6 py-3 rounded text-base font-medium transition-colors inline-flex items-center" style={{ backgroundColor: '#FF9C00', color: '#000' }}>
+            GET STARTED →
+          </Link>
         </div>
       </section>
 
