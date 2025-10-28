@@ -1,10 +1,11 @@
-import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe, User, LogOut } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe, User, LogOut, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import CityCard from "@/components/CityCard";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../firebase";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/globelogo.svg";
+import { useState } from "react";
 
 const cities = [
   { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
@@ -18,6 +19,7 @@ const cities = [
 
 const Index = () => {
   const [user] = useAuthState(auth);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   return (
     <div className="min-h-screen bg-white">
@@ -30,7 +32,7 @@ const Index = () => {
               <img src={logo} alt="GlobeMates" className="h-10 w-10" />
             </Link>
             
-            {/* Navigation Container - White rounded background on the right */}
+            {/* Desktop Navigation Container - White rounded background on the right */}
             <div className="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-2xl px-2 py-2 shadow-lg">
               <nav className="flex items-center space-x-1 mr-2">
                 <a href="#" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Home</a>
@@ -47,7 +49,57 @@ const Index = () => {
                 Get Started
               </Link>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden bg-white/95 backdrop-blur-sm p-2 rounded-lg shadow-lg"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6 text-gray-700" />
+              ) : (
+                <Menu className="w-6 h-6 text-gray-700" />
+              )}
+            </button>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg p-4 animate-fade-in">
+              <nav className="flex flex-col space-y-2">
+                <a 
+                  href="#" 
+                  className="text-gray-700 hover:text-black font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Home
+                </a>
+                <Link 
+                  to="/features" 
+                  className="text-gray-700 hover:text-black font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Features
+                </Link>
+                <Link 
+                  to="/blog" 
+                  className="text-gray-700 hover:text-black font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
+                <Link 
+                  to="/signup" 
+                  className="px-6 py-3 rounded-xl text-sm font-semibold transition-colors text-center mt-2"
+                  style={{ backgroundColor: '#FF9C00', color: '#000' }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Get Started
+                </Link>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
