@@ -176,9 +176,9 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 px-4" style={{ backgroundColor: '#FF9C00' }}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Left - Image */}
             <div className="rounded-3xl overflow-hidden">
               <img 
@@ -188,37 +188,40 @@ const Index = () => {
               />
             </div>
             
-            {/* Right - Features List */}
-            <div className="space-y-12">
-              <div>
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl flex items-center justify-center mb-4">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-3">Local hubs</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Connect with your city's international community through dedicated local hubs that bring students together
-                </p>
+            {/* Right - Empty space for alignment */}
+            <div></div>
+          </div>
+          
+          {/* Features Row - Below Image */}
+          <div className="grid sm:grid-cols-3 gap-8 sm:gap-12 mt-12 lg:mt-16">
+            <div className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <MapPin className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
-              
-              <div>
-                <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-teal-500 rounded-xl flex items-center justify-center mb-4">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-3">University Integration</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Seamlessly integrate with your university's services and connect with fellow students from your institution
-                </p>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 text-black">Local hubs</h3>
+              <p className="text-black/80 leading-relaxed text-sm sm:text-base">
+                Connect with your city's international community through dedicated local hubs that bring students together
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Users className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
-              
-              <div>
-                <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                  <Globe className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-3">Resource Guide</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Access comprehensive guides covering everything from local customs to essential services in your new city
-                </p>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 text-black">University Integration</h3>
+              <p className="text-black/80 leading-relaxed text-sm sm:text-base">
+                Seamlessly integrate with your university's services and connect with fellow students from your institution
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 text-black">Resource Guide</h3>
+              <p className="text-black/80 leading-relaxed text-sm sm:text-base">
+                Access comprehensive guides covering everything from local customs to essential services in your new city
+              </p>
             </div>
           </div>
         </div>
