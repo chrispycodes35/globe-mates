@@ -230,7 +230,7 @@ const Index = () => {
       {/* Testimonials Section */}
       <TestimonialSection />
 
-      {/* Footer - Two Tier Design */}
+      {/* Footer */}
       <footer className="bg-white">
         {/* Top Tier - Links, Social Icons, and Sign In */}
         <div className="border-t border-gray-200">
@@ -281,21 +281,25 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Bottom Tier - Dark Section with Logo */}
+        {/* Middle Section - Large GlobeMates Logo */}
+        <div className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center">
+              <h2 className="text-[120px] sm:text-[150px] lg:text-[200px] font-bold text-gray-900 leading-none flex items-center">
+                <span>Gl</span>
+                <Globe className="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 mx-2 text-gray-900" />
+                <span>beMates</span>
+              </h2>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom Tier - Dark Section with Copyright */}
         <div className="bg-gray-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-              {/* Left - GlobeMates Logo */}
-              <div className="flex items-center">
-                <Globe className="w-5 h-5 text-white mr-2" />
-                <span className="text-white font-semibold text-lg">GlobeMates</span>
-              </div>
-              
-              {/* Right - Copyright */}
-              <p className="text-sm text-gray-400">
-                © 2025 GlobeMates. All rights reserved.
-              </p>
-            </div>
+            <p className="text-sm text-gray-400">
+              © 2025 GlobeMates. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
