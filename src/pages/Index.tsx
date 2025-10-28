@@ -4,6 +4,7 @@ import CityCard from "@/components/CityCard";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../firebase";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/globelogo.svg";
 
 const cities = [
   { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
@@ -25,45 +26,26 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="font-bold text-xl">GlobeMates</Link>
+            <Link to="/" className="flex items-center">
+              <img src={logo} alt="GlobeMates" className="h-8 w-8" />
+            </Link>
             
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex items-center space-x-8">
               <a href="#" className="text-gray-700 hover:text-black font-medium text-sm">Home</a>
-              <a href="#" className="text-gray-700 hover:text-black font-medium text-sm">Services</a>
-              <a href="#" className="text-gray-700 hover:text-black font-medium text-sm">Features</a>
-              <a href="#" className="text-gray-700 hover:text-black font-medium text-sm">Blog</a>
+              <Link to="/features" className="text-gray-700 hover:text-black font-medium text-sm">Features</Link>
+              <Link to="/blog" className="text-gray-700 hover:text-black font-medium text-sm">Blog</Link>
             </nav>
             
-            {/* CTA Buttons */}
+            {/* CTA Button */}
             <div className="flex items-center space-x-4">
-              {user ? (
-                <>
-                  <Link to="/profile" className="flex items-center space-x-2 text-gray-700 hover:text-black font-medium text-sm">
-                    <User className="w-4 h-4" />
-                    <span>Profile</span>
-                  </Link>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => {
-                      auth.signOut();
-                      window.location.reload();
-                    }}
-                    className="flex items-center space-x-2"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Logout</span>
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="text-gray-700 hover:text-black font-medium text-sm">Login</Link>
-                  <Link to="/signup" className="border border-gray-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-50 transition-colors">
-                    Sign Up
-                  </Link>
-                </>
-              )}
+              <Link 
+                to="/signup" 
+                className="px-6 py-2 rounded-lg text-sm font-semibold transition-colors"
+                style={{ backgroundColor: '#FF9C00', color: '#000' }}
+              >
+                Get Started
+              </Link>
             </div>
           </div>
         </div>
@@ -79,6 +61,13 @@ const Index = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/60"></div>
+          {/* Noise texture overlay */}
+          <div 
+            className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          ></div>
         </div>
         
         {/* Content */}
