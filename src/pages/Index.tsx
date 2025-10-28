@@ -1,6 +1,7 @@
 import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe, User, LogOut, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import CityCard from "@/components/CityCard";
+import TestimonialSection from "@/components/TestimonialSection";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../firebase";
 import { Button } from "@/components/ui/button";
@@ -221,6 +222,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialSection />
 
       {/* Copyright Footer */}
       <footer className="py-8 bg-white border-t">
