@@ -69,78 +69,63 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section with Gradient Background */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16 sm:pt-20 bg-gradient-to-br from-orange-200 via-pink-300 to-pink-400">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Hero Section with Full-Width Background Image */}
+      <section className="relative min-h-screen flex items-center justify-center pt-16 sm:pt-20">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={new URL('../assets/hero-community.jpg', import.meta.url).href}
+            alt="International students connecting"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Content */}
-            <div className="text-center lg:text-left order-2 lg:order-1">
-              <p className="text-base sm:text-lg font-serif text-gray-700 mb-4">Your Journey, in Perfect Harmony.</p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-black mb-4 sm:mb-6 leading-tight">
-                Navigate new cultures with confidence
+            {/* Left Content - Main Headline */}
+            <div>
+              <p className="text-base sm:text-lg text-white/90 mb-4">Your Journey, in Perfect Harmony.</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                Navigate new cultures with <span className="italic font-serif">confidence</span>
               </h1>
-              <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
-                Explore your new world with confidence: find peers, cultural events, and trusted resources all in one place
-              </p>
-              <Link to="/signup" className="border border-gray-300 bg-white px-5 py-2.5 sm:px-6 sm:py-3 rounded text-sm sm:text-base font-medium hover:bg-gray-50 transition-colors inline-flex items-center">
+              <Link to="/signup" className="bg-white text-black px-6 py-3 rounded text-base font-medium hover:bg-gray-100 transition-colors inline-flex items-center">
                 GET STARTED →
               </Link>
             </div>
             
-            {/* Right Visual - International Students */}
-            <div className="relative order-1 lg:order-2 mb-8 lg:mb-0">
-              <div className="relative z-10 bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl transform rotate-1 sm:rotate-2 lg:rotate-3 hover:rotate-0 transition-transform duration-300">
-                <div className="space-y-3 sm:space-y-4">
-                  {/* Student Cards */}
-                  <div className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs sm:text-sm font-bold">M</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-xs sm:text-sm truncate">Maria from Brazil</p>
-                      <p className="text-xs text-gray-600 truncate">Studying in Tokyo</p>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <span className="text-xs bg-green-100 text-green-800 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">Online</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gradient-to-r from-pink-50 to-orange-50 rounded-lg">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-pink-400 to-orange-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs sm:text-sm font-bold">A</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-xs sm:text-sm truncate">Ahmed from Egypt</p>
-                      <p className="text-xs text-gray-600 truncate">Studying in London</p>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <span className="text-xs bg-blue-100 text-blue-800 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">Available</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gradient-to-r from-green-50 to-teal-50 rounded-lg">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs sm:text-sm font-bold">S</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-xs sm:text-sm truncate">Sarah from Canada</p>
-                      <p className="text-xs text-gray-600 truncate">Studying in Paris</p>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <span className="text-xs bg-yellow-100 text-yellow-800 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">Online</span>
-                    </div>
+            {/* Right Content - Info Box */}
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-2xl">
+              <p className="text-lg text-gray-800 mb-6 leading-relaxed">
+                Explore your new world with confidence: find peers, cultural events, and trusted resources all in one place
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <Users className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Connect with Peers</h3>
+                    <p className="text-sm text-gray-600">Match with students from your country or with similar interests</p>
                   </div>
                 </div>
                 
-                {/* Globe Icon */}
-                <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <Globe className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+                <div className="flex items-start space-x-3">
+                  <Calendar className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Discover Events</h3>
+                    <p className="text-sm text-gray-600">Stay ahead with local cultural activities and social gatherings</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-3">
+                  <MapPin className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Local Resources</h3>
+                    <p className="text-sm text-gray-600">Access guides to customs, language tips, and essential resources</p>
+                  </div>
                 </div>
               </div>
-              
-              {/* Background Elements */}
-              <div className="absolute -top-3 -left-3 sm:-top-6 sm:-left-6 w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full opacity-20"></div>
-              <div className="absolute -bottom-3 -right-3 sm:-bottom-6 sm:-right-6 w-12 h-12 sm:w-20 sm:h-20 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-20"></div>
             </div>
           </div>
         </div>
