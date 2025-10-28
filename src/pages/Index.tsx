@@ -80,7 +80,7 @@ const Index = () => {
                 Navigate new cultures with confidence
               </h1>
               <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
-                Take control of your international experience with our all-in-one student platform. Connect with peers, discover local culture, and thrive abroad—without the overwhelm.
+                Explore your new world with confidence: find peers, cultural events, and trusted resources all in one place
               </p>
               <Link to="/signup" className="border border-gray-300 bg-white px-5 py-2.5 sm:px-6 sm:py-3 rounded text-sm sm:text-base font-medium hover:bg-gray-50 transition-colors inline-flex items-center">
                 GET STARTED →
