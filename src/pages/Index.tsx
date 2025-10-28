@@ -30,11 +30,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             {/* Logo - With Globe as 'O' */}
             <Link to="/" className="flex items-center">
-              <div className="text-2xl font-bold text-white flex items-center">
-                <span>Gl</span>
-                <Globe className="w-6 h-6 mx-0.5 text-white animate-spin-slow" style={{ animationDuration: '20s' }} />
-                <span>beMates</span>
-              </div>
+              <img src={logo} alt="GlobeMates" className="h-8" />
             </Link>
             
             {/* Desktop Navigation Container - White rounded background on the right */}
@@ -176,7 +172,7 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4" style={{ backgroundColor: '#FF9C00' }}>
+      <section className="py-12 sm:py-16 lg:py-20 px-4" style={{ backgroundColor: '#FFEBCA' }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Left - Image */}
@@ -194,8 +190,8 @@ const Index = () => {
           
           {/* Features Row - Below Image */}
           <div className="grid sm:grid-cols-3 gap-8 sm:gap-12 mt-12 lg:mt-16">
-            <div className="text-center">
-              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <div className="text-left">
+              <div className="w-16 h-16 flex items-center justify-start mb-4">
                 <MapPin className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-black">Local hubs</h3>
@@ -204,8 +200,8 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <div className="text-left">
+              <div className="w-16 h-16 flex items-center justify-start mb-4">
                 <Users className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-black">University Integration</h3>
@@ -214,8 +210,8 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <div className="text-left">
+              <div className="w-16 h-16 flex items-center justify-start mb-4">
                 <Globe className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-black">Resource Guide</h3>
