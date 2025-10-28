@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 
 interface Testimonial {
   id: number;
@@ -76,14 +75,36 @@ const TestimonialSection = () => {
               </p>
             </div>
 
-            {/* Right: Country Badge */}
+            {/* Right: Country Badge - Starburst Style */}
             <div className="flex-shrink-0">
-              <Badge 
-                variant="outline" 
-                className="text-base font-semibold px-5 py-2 rounded-full border-2 bg-gradient-to-r from-blue-50 to-purple-50"
-              >
-                {currentTestimonial.country}
-              </Badge>
+              <div className="relative w-32 h-32 flex items-center justify-center">
+                {/* Starburst background */}
+                <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full">
+                  <defs>
+                    <linearGradient id="badge-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#FF9C7C', stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: '#FFA07A', stopOpacity: 1 }} />
+                    </linearGradient>
+                  </defs>
+                  {/* Starburst outer edge */}
+                  <path
+                    d="M100,10 L105,45 L115,15 L115,50 L125,20 L122,55 L135,30 L128,60 L145,40 L135,65 L155,50 L142,70 L165,60 L148,75 L170,70 L153,80 L175,85 L155,85 L175,95 L153,100 L170,110 L148,105 L165,120 L142,110 L155,130 L135,115 L145,140 L128,120 L135,150 L122,125 L125,160 L115,130 L115,165 L105,135 L100,170 L95,135 L85,165 L85,130 L75,160 L78,125 L65,150 L72,120 L55,140 L65,115 L45,130 L58,110 L35,120 L52,105 L30,110 L47,100 L25,95 L45,85 L25,85 L47,80 L30,70 L52,75 L35,60 L58,70 L45,50 L65,65 L55,40 L72,60 L65,30 L78,55 L75,20 L85,50 L85,15 L95,45 Z"
+                    fill="url(#badge-gradient)"
+                    stroke="#FFFFFF"
+                    strokeWidth="3"
+                    filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"
+                  />
+                  {/* Inner circles */}
+                  <circle cx="100" cy="100" r="45" fill="rgba(255,255,255,0.3)" />
+                  <circle cx="100" cy="100" r="40" fill="rgba(255,156,124,0.5)" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
+                </svg>
+                {/* Text content */}
+                <div className="relative z-10 flex flex-col items-center justify-center">
+                  <span className="text-xl font-bold text-white drop-shadow-sm">
+                    {currentTestimonial.country}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
