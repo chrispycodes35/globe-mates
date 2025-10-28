@@ -230,36 +230,38 @@ const Index = () => {
       {/* Testimonials Section */}
       <TestimonialSection />
 
-      {/* Footer - Interactive Design */}
-      <footer className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Top Section */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center pb-8 border-b border-gray-700">
-            {/* Left - Links */}
-            <div className="flex flex-wrap gap-6 mb-6 md:mb-0">
-              <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+      {/* Footer - Two Tier Design */}
+      <footer className="bg-white border-t border-gray-200">
+        {/* Top Tier - Links and Sign In */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            {/* Left - Navigation Links */}
+            <div className="flex flex-wrap gap-6">
+              <a href="#" className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide">
                 Terms of Use
               </a>
-              <Link to="/features" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+              <Link to="/features" className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide">
                 Features
               </Link>
-              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+              <Link to="/blog" className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide">
                 Blog
               </Link>
             </div>
             
-            {/* Right - Sign In Button */}
+            {/* Right - Sign In */}
             <Link 
               to="/login" 
-              className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white font-medium text-sm transition-colors"
+              className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide"
             >
               Sign In
             </Link>
           </div>
-          
-          {/* Bottom Section */}
-          <div className="pt-8">
-            <p className="text-gray-400 text-sm">
+        </div>
+        
+        {/* Bottom Tier - Copyright */}
+        <div className="border-t border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <p className="text-sm text-gray-500">
               © 2025 GlobeMates. All rights reserved.
             </p>
           </div>
