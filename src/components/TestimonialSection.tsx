@@ -18,24 +18,24 @@ const testimonials: Testimonial[] = [
     name: "Sarah Chen",
     role: "Student in Tokyo",
     quote: "GlobeMates helped me connect with other international students in Tokyo. Within my first week, I found a study group and attended amazing cultural events. It made my transition so much easier!",
-    country: "USA",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
+    country: "🇺🇸 USA",
+    avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Sarah&backgroundColor=b6e3f4"
   },
   {
     id: 2,
     name: "Lucas Martinez",
     role: "Exchange Student in Paris",
     quote: "The local integration hub was a lifesaver. I learned about French customs and found resources that helped me feel at home quickly. Best platform for international students!",
-    country: "Spain",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lucas"
+    country: "🇪🇸 Spain",
+    avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Lucas&backgroundColor=ffd5dc"
   },
   {
     id: 3,
     name: "Priya Sharma",
     role: "Graduate Student in London",
     quote: "Finding peers from my home country and making new international friends has been incredible. The event calendar keeps me updated on everything happening around the city.",
-    country: "India",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya"
+    country: "🇮🇳 India",
+    avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Priya&backgroundColor=c0aede"
   }
 ];
 
@@ -80,7 +80,7 @@ const TestimonialSection = () => {
             <div className="flex-shrink-0">
               <Badge 
                 variant="outline" 
-                className="text-xl font-bold px-6 py-3 rounded-xl border-2"
+                className="text-base font-semibold px-5 py-2 rounded-full border-2 bg-gradient-to-r from-blue-50 to-purple-50"
               >
                 {currentTestimonial.country}
               </Badge>
