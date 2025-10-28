@@ -123,8 +123,8 @@ const Index = () => {
         </div>
         
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-end">
             {/* Left Content - Main Headline */}
             <div>
               <p className="text-base sm:text-lg text-white/90 mb-4">Your Journey, in Perfect Harmony.</p>
@@ -137,7 +137,7 @@ const Index = () => {
             </div>
             
             {/* Right Content - Descriptive Text */}
-            <div>
+            <div className="pb-1">
               <p className="text-lg sm:text-xl text-white/90 leading-relaxed">
                 Explore your new world with confidence: find peers, cultural events, and trusted resources all in one place
               </p>
