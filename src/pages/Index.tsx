@@ -22,26 +22,26 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm">
+      <header className="absolute top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
+            {/* Logo - No background */}
             <Link to="/" className="flex items-center">
-              <img src={logo} alt="GlobeMates" className="h-8 w-8" />
+              <img src={logo} alt="GlobeMates" className="h-10 w-10" />
             </Link>
             
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-700 hover:text-black font-medium text-sm">Home</a>
-              <Link to="/features" className="text-gray-700 hover:text-black font-medium text-sm">Features</Link>
-              <Link to="/blog" className="text-gray-700 hover:text-black font-medium text-sm">Blog</Link>
-            </nav>
-            
-            {/* CTA Button */}
-            <div className="flex items-center space-x-4">
+            {/* Navigation Container - White rounded background on the right */}
+            <div className="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-2xl px-2 py-2 shadow-lg">
+              <nav className="flex items-center space-x-1 mr-2">
+                <a href="#" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Home</a>
+                <Link to="/features" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Features</Link>
+                <Link to="/blog" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Blog</Link>
+              </nav>
+              
+              {/* CTA Button */}
               <Link 
                 to="/signup" 
-                className="px-6 py-2 rounded-lg text-sm font-semibold transition-colors"
+                className="px-6 py-2 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap"
                 style={{ backgroundColor: '#FF9C00', color: '#000' }}
               >
                 Get Started
