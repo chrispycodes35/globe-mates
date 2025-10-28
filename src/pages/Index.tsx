@@ -78,7 +78,7 @@ const Index = () => {
             alt="International students connecting"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/60"></div>
         </div>
         
         {/* Content */}
@@ -90,7 +90,7 @@ const Index = () => {
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                 Navigate new cultures with <span className="italic font-serif">confidence</span>
               </h1>
-              <Link to="/signup" className="bg-white text-black px-6 py-3 rounded text-base font-medium hover:bg-gray-100 transition-colors inline-flex items-center">
+              <Link to="/signup" className="px-6 py-3 rounded text-base font-medium transition-colors inline-flex items-center" style={{ backgroundColor: '#FF9C00', color: '#000' }}>
                 GET STARTED →
               </Link>
             </div>
