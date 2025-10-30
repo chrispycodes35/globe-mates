@@ -34,12 +34,12 @@ const Index = () => {
             </Link>
             
             {/* Desktop Navigation Container - White rounded background on the right */}
-            <div className="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-2xl px-2 py-2 shadow-lg">
-              <nav className="flex items-center space-x-1 mr-2">
+            <div className="hidden md:flex items-center bg-black/85 backdrop-blur-sm rounded-xl px-0.25 py-0.25 shadow-lg">
+              {/* <nav className="flex items-center space-x-1 mr-2">
                 <a href="#" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Home</a>
                 <Link to="/features" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Features</Link>
                 <Link to="/blog" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Blog</Link>
-              </nav>
+              </nav> */}
               
               {/* CTA Button */}
               <Link 
