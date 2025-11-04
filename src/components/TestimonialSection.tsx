@@ -52,8 +52,7 @@ const TestimonialSection = () => {
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
-      <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto">
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
           <div className="flex flex-col md:flex-row gap-8 items-start">
             {/* Left: Avatar and Info */}
@@ -114,7 +113,6 @@ const TestimonialSection = () => {
           </div>
         </div>
       </div>
-    </section>
   );
 };
 

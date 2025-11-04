@@ -41,6 +41,15 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
+    /* GlobeMates Brand Colors */
+    --globemates-navy: 222 47% 11%; /* gray-900 equivalent: #111827 */
+    --globemates-navy-light: 222 47% 20%; /* gray-800 equivalent */
+    --globemates-gold: 38 100% 50%; /* #FF9C00 */
+    --globemates-gold-light: 38 100% 60%;
+    --globemates-gold-dark: 38 100% 40%;
+    --globemates-pink: 340 82% 52%; /* pink-600 equivalent */
+    --globemates-orange: 25 95% 53%; /* orange-500 equivalent */
+
     /* Custom gradients */
     --gradient-primary: linear-gradient(135deg, hsl(243 75% 59%), hsl(270 60% 65%));
     --gradient-hero: linear-gradient(135deg, hsl(243 75% 59% / 0.95), hsl(270 60% 65% / 0.85));
@@ -111,6 +120,7 @@ All colors MUST be HSL.
 @layer base {
   * {
     @apply border-border;
+    font-family: 'Inter', sans-serif;
   }
 
   body {
@@ -118,17 +128,14 @@ All colors MUST be HSL.
     font-family: 'Inter', sans-serif;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  /* Standardize font usage - use Inter for body, EB Garamond only for headings */
+  h1, h2, h3, h4, h5, h6, .font-serif {
     font-family: 'EB Garamond', serif;
     font-weight: 600;
   }
   
   .font-display {
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .font-serif {
-    font-family: 'EB Garamond', serif;
+    font-family: 'Inter', sans-serif;
   }
 }
 
@@ -245,3 +252,17 @@ All colors MUST be HSL.
 .card-animate:nth-child(5) { animation-delay: 0.25s; }
 .card-animate:nth-child(6) { animation-delay: 0.3s; }
 .card-animate:nth-child(7) { animation-delay: 0.35s; }
+
+/* Rotating globe animation for loading states */
+@keyframes rotateGlobe {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.globe-loading {
+  animation: rotateGlobe 2s linear infinite;
+}

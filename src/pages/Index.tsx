@@ -1,111 +1,80 @@
-import { ArrowRight, ChevronDown, Menu, MapPin, Users, Calendar, Globe, User, LogOut, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import CityCard from "@/components/CityCard";
+import { Link } from "react-router-dom";
+import HowItWorks, { Step } from "@/components/HowItWorks";
 import TestimonialSection from "@/components/TestimonialSection";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../firebase";
-import { Button } from "@/components/ui/button";
-import logo from "@/assets/globelogo.svg";
-import { useState } from "react";
+import PreLoginNavbar from "@/components/PreLoginNavbar";
+import Footer from "@/components/Footer";
+import { School, MapPin, Calendar, Users } from "lucide-react";
 
-const cities = [
-  { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
-  { name: "Paris", country: "France", slug: "paris", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
-  { name: "London", country: "England", slug: "london", gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" },
-  { name: "New York City", country: "USA", slug: "new-york", gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
-  { name: "Copenhagen", country: "Denmark", slug: "copenhagen", gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" },
-  { name: "Milan", country: "Italy", slug: "milan", gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
-  { name: "Rome", country: "Italy", slug: "rome", gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)" },
+const howItWorksSteps: Step[] = [
+  {
+    id: "signup",
+    title: "Create Your Account",
+    description: "Sign up with your email and provide information about your study abroad program to personalize your experience.",
+    details: [
+      "Enter your email and create a secure password",
+      "Select your student status (Undergraduate, Graduate, etc.)",
+      "Choose your home university from our extensive list or add a custom one",
+      "Select your program type (Study Abroad, Exchange, Summer Program, etc.)",
+      "Pick your study destination from popular cities worldwide"
+    ],
+    icon: School,
+    color: "bg-blue-600",
+  },
+  {
+    id: "dashboard",
+    title: "Explore Your Dashboard",
+    description: "Your personalized dashboard shows everything you need: your program info, destination, and quick access to all features.",
+    details: [
+      "View your program details and destination at a glance",
+      "Access city hubs to explore your study abroad location",
+      "Discover events filtered by your location",
+      "Navigate to Services, Features, and Blog sections",
+      "Manage your profile and settings from the dropdown menu"
+    ],
+    icon: MapPin,
+    color: "bg-pink-600",
+  },
+  {
+    id: "events",
+    title: "Discover Events & Activities",
+    description: "Find events tailored to your location, from program events to student-led activities and local cultural experiences.",
+    details: [
+      "Browse program events organized by your study abroad office",
+      "Join student-led activities and meetups",
+      "Explore local events happening in your city",
+      "Discover broader regional events and conferences",
+      "Get notified about upcoming activities relevant to you"
+    ],
+    icon: Calendar,
+    color: "bg-purple-600",
+  },
+  {
+    id: "connect",
+    title: "Connect & Network",
+    description: "Build your network with fellow study abroad students and access resources to make the most of your experience.",
+    details: [
+      "Connect with students from your university studying in the same city",
+      "Find study buddies and travel companions",
+      "Access academic support and local guidance",
+      "Get health and wellness resources",
+      "Stay updated with safety tips and important regulations"
+    ],
+    icon: Users,
+    color: "bg-green-600",
+  },
 ];
 
 const Index = () => {
   const [user] = useAuthState(auth);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo - With Globe as 'O' */}
-            <Link to="/" className="flex items-center">
-              <img src={logo} alt="GlobeMates" className="h-8" />
-            </Link>
-            
-            {/* Desktop Navigation Container - White rounded background on the right */}
-            <div className="hidden md:flex items-center bg-black/85 backdrop-blur-sm rounded-xl px-0.25 py-0.25 shadow-lg">
-              {/* <nav className="flex items-center space-x-1 mr-2">
-                <a href="#" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Home</a>
-                <Link to="/features" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Features</Link>
-                <Link to="/blog" className="text-gray-700 hover:text-black font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">Blog</Link>
-              </nav> */}
-              
-              {/* CTA Button */}
-              <Link 
-                to="/signup" 
-                className="px-6 py-2 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap"
-                style={{ backgroundColor: '#FF9C00', color: '#000' }}
-              >
-                Get Started
-              </Link>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden bg-white/95 backdrop-blur-sm p-2 rounded-lg shadow-lg"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-gray-700" />
-              ) : (
-                <Menu className="w-6 h-6 text-gray-700" />
-              )}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden mt-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg p-4 animate-fade-in">
-              <nav className="flex flex-col space-y-2">
-                <a 
-                  href="#" 
-                  className="text-gray-700 hover:text-black font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Home
-                </a>
-                <Link 
-                  to="/features" 
-                  className="text-gray-700 hover:text-black font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Features
-                </Link>
-                <Link 
-                  to="/blog" 
-                  className="text-gray-700 hover:text-black font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Blog
-                </Link>
-                <Link 
-                  to="/signup" 
-                  className="px-6 py-3 rounded-xl text-sm font-semibold transition-colors text-center mt-2"
-                  style={{ backgroundColor: '#FF9C00', color: '#000' }}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Get Started
-                </Link>
-              </nav>
-            </div>
-          )}
-        </div>
-      </header>
+      <PreLoginNavbar />
 
       {/* Hero Section with Full-Width Background Image */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16 sm:pt-20">
+      <section className="relative min-h-screen flex items-center justify-center pt-8 sm:pt-12">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -132,9 +101,14 @@ const Index = () => {
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                 Navigate new cultures with <span className="italic font-serif">confidence</span>
               </h1>
-              <Link to="/signup" className="px-6 py-3 rounded text-base font-medium transition-colors inline-flex items-center" style={{ backgroundColor: '#FF9C00', color: '#000' }}>
-                GET STARTED →
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link to="/login" className="px-6 py-3 rounded text-base font-medium transition-colors inline-flex items-center justify-center border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20">
+                  Log In
+                </Link>
+                <Link to="/signup" className="px-6 py-3 rounded text-base font-medium transition-colors inline-flex items-center justify-center" style={{ backgroundColor: '#FF9C00', color: '#000' }}>
+                  Create Account →
               </Link>
+              </div>
             </div>
             
             {/* Right Content - Descriptive Text */}
@@ -147,136 +121,43 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Cities Grid */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Choose Your Destination</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Select a city to access events, resources, and local culture
-          </p>
+      {/* Combined Section with Unified Background */}
+      <div className="py-20 px-4 bg-gradient-to-br from-white via-orange-50 to-orange-100">
+        {/* How It Works Section */}
+        <div className="pb-20">
+          <HowItWorks steps={howItWorksSteps} />
         </div>
         
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {cities.map((city) => (
-            <CityCard
-              key={city.slug}
-              name={city.name}
-              country={city.country}
-              slug={city.slug}
-              gradient={city.gradient}
-            />
-          ))}
+        {/* Destinations CTA */}
+        <div className="pb-20 text-center">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+              Explore Your City
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
+              Select a city to access events, resources, and local culture
+            </p>
+            <p className="text-base text-gray-500 max-w-2xl mx-auto mb-8">
+              For more information, access tips and cool information regarding different cities through our city hubs
+            </p>
+            <Link 
+              to="/destinations"
+              className="inline-block px-8 py-4 rounded-xl text-lg font-semibold transition-all hover:scale-105 shadow-lg"
+              style={{ backgroundColor: '#FF9C00', color: '#000' }}
+            >
+              Explore Destinations →
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-20 sm:py-24 lg:py-28 px-4" style={{ backgroundColor: '#FFEBCA' }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left - Image */}
-            <div className="rounded-3xl overflow-hidden">
-              <img 
-                src={new URL('../assets/students-learning.jpg', import.meta.url).href}
-                alt="Students learning together"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            
-            {/* Right - Features List */}
-            <div className="space-y-8">
-              <div className="text-left">
-                <div className="w-10 h-10 flex items-center justify-start mb-3">
-                  <MapPin className="w-8 h-8 text-black" strokeWidth={1.5} />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2 text-black">Local hubs</h3>
-                <p className="text-black/80 leading-relaxed text-sm">
-                  Connect with your city's international community through dedicated local hubs that bring students together
-                </p>
-              </div>
-              
-              <div className="text-left">
-                <div className="w-10 h-10 flex items-center justify-start mb-3">
-                  <Users className="w-8 h-8 text-black" strokeWidth={1.5} />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2 text-black">University Integration</h3>
-                <p className="text-black/80 leading-relaxed text-sm">
-                  Seamlessly integrate with your university's services and connect with fellow students from your institution
-                </p>
-              </div>
-              
-              <div className="text-left">
-                <div className="w-10 h-10 flex items-center justify-start mb-3">
-                  <Globe className="w-8 h-8 text-black" strokeWidth={1.5} />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2 text-black">Resource Guide</h3>
-                <p className="text-black/80 leading-relaxed text-sm">
-                  Access comprehensive guides covering everything from local customs to essential services in your new city
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* Testimonials Section */}
+            <div>
+          <TestimonialSection />
         </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <TestimonialSection />
+      </div>
 
       {/* Footer */}
-      <footer className="bg-white">
-        {/* Top Tier - Links, Social Icons, and Sign In */}
-        <div className="border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-              {/* Left - Navigation Links */}
-              <div className="flex flex-wrap gap-6 justify-start">
-                <a href="#" className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide">
-                  Terms of Use
-                </a>
-                <Link to="/features" className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide">
-                  Features
-                </Link>
-                <Link to="/blog" className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide">
-                  Blog
-                </Link>
-              </div>
-              
-              {/* Right - Sign In */}
-              <div className="flex justify-end">
-                <Link 
-                  to="/login" 
-                  className="text-sm font-medium text-gray-700 hover:text-black transition-colors uppercase tracking-wide"
-                >
-                  Sign In
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Middle Section - Large GlobeMates Logo */}
-        <div className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-center">
-              <h2 className="text-[120px] sm:text-[150px] lg:text-[200px] font-bold text-gray-900 leading-none flex items-center">
-                <span>Gl</span>
-                <Globe className="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 mx-2 text-gray-900 animate-spin-slow" style={{ animationDuration: '20s' }} />
-                <span>beMates</span>
-              </h2>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom Tier - Dark Section with Copyright */}
-        <div className="bg-gray-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <p className="text-sm text-gray-400">
-              © 2025 GlobeMates. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -4,16 +4,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Button } from '../components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, LogOut, MapPin, School, GraduationCap, Settings, Home } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { User, MapPin, School, GraduationCap, Home } from 'lucide-react';
+import PostLoginNavbar from '@/components/PostLoginNavbar';
 
 const Profile = () => {
   const [user] = useAuthState(auth);
@@ -26,10 +18,10 @@ const Profile = () => {
       if (user) {
         setLoading(true);
         try {
-          const docRef = doc(db, 'users', user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setUserData(docSnap.data());
+        const docRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -50,78 +42,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/dashboard" className="font-bold text-xl text-gray-900 hover:text-pink-600 transition-colors">
-              GlobeMates
-            </Link>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/dashboard" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Home</Link>
-              <Link to="/events" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Events</Link>
-              <Link to="/services" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Services</Link>
-              <Link to="/features" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Features</Link>
-              <Link to="/blog" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Blog</Link>
-            </nav>
-            
-            <div className="flex items-center space-x-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 transition-all hover:scale-110">
-                    <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-pink-600 text-white font-semibold">
-                        {userData?.school?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'U'}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium">{userData?.school || 'User'}</p>
-                      <p className="text-xs text-gray-500">{user?.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      window.location.href = '/profile';
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <User className="mr-2 h-4 w-4" />
-                    <span>View Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      navigate('/dashboard');
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Back to Dashboard</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    className="cursor-pointer text-red-600 focus:text-red-600"
-                    onSelect={async (e) => {
-                      e.preventDefault();
-                      await auth.signOut();
-                      window.location.href = '/';
-                    }}
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        </div>
-      </header>
+      <PostLoginNavbar />
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -132,7 +53,7 @@ const Profile = () => {
               <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <User className="w-12 h-12" />
               </div>
-              <div>
+          <div>
                 <h1 className="text-3xl font-bold">My Profile</h1>
                 <p className="text-white/90 mt-1">{userData?.email || user.email}</p>
               </div>
@@ -143,10 +64,14 @@ const Profile = () => {
           <div id="profile-content" className="p-8">
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600 mx-auto"></div>
+                <img 
+                  src="/images/globe.svg" 
+                  alt="Loading" 
+                  className="globe-loading h-12 w-12 mx-auto"
+                />
                 <p className="mt-4 text-gray-600">Loading profile...</p>
-              </div>
-            ) : (
+          </div>
+        ) : (
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Info Card */}
                 <div className="space-y-4">

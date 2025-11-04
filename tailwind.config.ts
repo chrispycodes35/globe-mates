@@ -58,6 +58,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        globemates: {
+          navy: "hsl(var(--globemates-navy))",
+          "navy-light": "hsl(var(--globemates-navy-light))",
+          gold: "hsl(var(--globemates-gold))",
+          "gold-light": "hsl(var(--globemates-gold-light))",
+          "gold-dark": "hsl(var(--globemates-gold-dark))",
+          pink: "hsl(var(--globemates-pink))",
+          orange: "hsl(var(--globemates-orange))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

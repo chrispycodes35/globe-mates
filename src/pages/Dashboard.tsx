@@ -3,17 +3,9 @@ import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, LogOut, MapPin, Users, School, Settings, Calendar, Music, Utensils, Camera, Globe, Coffee } from 'lucide-react';
+import { MapPin, Users, School, Coffee, Camera, Utensils, Globe, Calendar, Music } from 'lucide-react';
 import CityCard from '@/components/CityCard';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import PostLoginNavbar from '@/components/PostLoginNavbar';
 
 const cities = [
   { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
@@ -81,9 +73,13 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 fade-in">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-200 via-gold-300 to-white-400">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-pink-600 mx-auto mb-4"></div>
+          <img 
+            src="/images/globe.svg" 
+            alt="Loading" 
+            className="globe-loading h-16 w-16 mx-auto mb-4"
+          />
           <p className="text-gray-600 text-lg">Loading your dashboard...</p>
         </div>
       </div>
@@ -100,80 +96,10 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-white fade-in">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm smooth-transition">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/dashboard" className="font-bold text-xl">GlobeMates</Link>
-            
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/dashboard" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Home</Link>
-              <Link to="/events" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Events</Link>
-              <Link to="/services" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Services</Link>
-              <Link to="/features" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Features</Link>
-              <Link to="/blog" className="text-gray-700 hover:text-pink-600 font-medium text-sm transition-colors">Blog</Link>
-            </nav>
-            
-            <div className="flex items-center space-x-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 transition-all hover:scale-110">
-                    <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-pink-600 text-white font-semibold">
-                        {userData?.school?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'U'}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium">{userData?.school || 'User'}</p>
-                      <p className="text-xs text-gray-500">{user?.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      window.location.href = '/profile';
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Edit Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      navigate('/dashboard');
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Dashboard Settings</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    className="cursor-pointer text-red-600 focus:text-red-600"
-                    onSelect={async (e) => {
-                      e.preventDefault();
-                      await auth.signOut();
-                      window.location.href = '/';
-                    }}
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        </div>
-      </header>
+      <PostLoginNavbar />
 
       {/* Welcome Section */}
-      <section className="relative pt-32 pb-20 px-4 bg-gradient-to-br from-orange-200 via-pink-300 to-pink-400">
+      <section className="relative pt-24 pb-20 px-4 bg-gradient-to-br from-pink-200 via-gold-300 to-white-400">
         <div className="max-w-7xl mx-auto">
           <div className="text-center fade-in-delay-1">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">

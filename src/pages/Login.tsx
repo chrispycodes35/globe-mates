@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Label } from '../components/ui/label';
+import PreLoginNavbar from '../components/PreLoginNavbar';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -29,24 +30,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="font-bold text-xl text-gray-900 hover:text-pink-600 transition-colors">
-              GlobeMates
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link to="/login" className="text-pink-600 font-medium text-sm border-b-2 border-pink-600 pb-1">
-                Login
-              </Link>
-              <Link to="/signup" className="border border-gray-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-50 transition-colors">
-                Sign Up
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <PreLoginNavbar />
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center py-12">

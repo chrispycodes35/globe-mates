@@ -14,6 +14,9 @@ import Events from "./pages/Events";
 import Services from "./pages/Services";
 import Features from "./pages/Features";
 import Blog from "./pages/Blog";
+import About from "./pages/About";
+import Privacy from "./pages/Privacy";
+import Destinations from "./pages/Destinations";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -30,6 +33,9 @@ const App = () => (
           <Route path="/city/:cityName" element={<CityHub />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/destinations" element={<Destinations />} />
           
           {/* Protected Routes */}
           <Route 
