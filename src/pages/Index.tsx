@@ -130,7 +130,7 @@ const Index = () => {
         
         {/* Destinations CTA */}
         <div className="pb-20 text-center">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto border-2 border-orange-600 rounded-xl p-8 shadow-lg">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
               Explore Your City
             </h2>
