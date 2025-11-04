@@ -1,7 +1,8 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
 import { Star, Award, TrendingUp, Users, MapPin, Calendar } from 'lucide-react';
 

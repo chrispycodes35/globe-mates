@@ -19,9 +19,6 @@ const Footer = () => {
           <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors uppercase tracking-wide">
             Terms of Use
           </a>
-          <Link to="/features" className="text-sm font-medium text-white/80 hover:text-white transition-colors uppercase tracking-wide">
-            Features
-          </Link>
           <Link to="/blog" className="text-sm font-medium text-white/80 hover:text-white transition-colors uppercase tracking-wide">
             Blog
           </Link>

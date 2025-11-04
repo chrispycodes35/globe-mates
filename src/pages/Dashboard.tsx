@@ -3,7 +3,7 @@ import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MapPin, Users, School, Coffee, Camera, Utensils, Globe, Calendar, Music } from 'lucide-react';
+import { MapPin, Users, School, Coffee, Camera, Utensils, Globe, Calendar, Music, Heart, Shield, Zap, Star, Award, TrendingUp } from 'lucide-react';
 import CityCard from '@/components/CityCard';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
 
@@ -135,8 +135,137 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* Events Section */}
+      {/* Services Section */}
+      <section className="py-20 px-4 bg-white/90">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+              Our Services
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Everything you need to make your study abroad experience exceptional
+            </p>
+          </div>
 
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: School,
+                title: "Academic Support",
+                description: "Get help with course selection, credit transfers, and academic planning.",
+                color: "text-blue-600",
+                bgColor: "bg-blue-50",
+              },
+              {
+                icon: MapPin,
+                title: "Local Guidance",
+                description: "Discover hidden gems, cultural sites, and must-visit locations in your city.",
+                color: "text-green-600",
+                bgColor: "bg-green-50",
+              },
+              {
+                icon: Users,
+                title: "Student Networking",
+                description: "Connect with fellow study abroad students and build lasting friendships.",
+                color: "text-purple-600",
+                bgColor: "bg-purple-50",
+              },
+              {
+                icon: Heart,
+                title: "Health & Wellness",
+                description: "Resources for physical and mental health while studying abroad.",
+                color: "text-red-600",
+                bgColor: "bg-red-50",
+              },
+              {
+                icon: Shield,
+                title: "Safety Resources",
+                description: "Emergency contacts, safety tips, and important local regulations.",
+                color: "text-indigo-600",
+                bgColor: "bg-indigo-50",
+              },
+              {
+                icon: Zap,
+                title: "Quick Tips",
+                description: "Practical advice for navigating daily life in your host country.",
+                color: "text-amber-600",
+                bgColor: "bg-amber-50",
+              },
+            ].map((service, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105 card-animate"
+              >
+                <div className={`w-12 h-12 ${service.bgColor} rounded-lg flex items-center justify-center mb-4`}>
+                  <service.icon className={`w-6 h-6 ${service.color}`} />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
+                <p className="text-gray-600 text-sm">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+              Platform Features
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Discover what makes GlobeMates your perfect study abroad companion
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Calendar,
+                title: "Event Calendar",
+                description: "Never miss important events, orientations, or social gatherings.",
+              },
+              {
+                icon: MapPin,
+                title: "City Guides",
+                description: "Comprehensive guides to help you navigate your new city.",
+              },
+              {
+                icon: Users,
+                title: "Connect with Peers",
+                description: "Build your network with fellow study abroad students.",
+              },
+              {
+                icon: Star,
+                title: "Personalized Experience",
+                description: "Content tailored to your location and interests.",
+              },
+              {
+                icon: Award,
+                title: "Expert Insights",
+                description: "Tips and advice from experienced study abroad students.",
+              },
+              {
+                icon: TrendingUp,
+                title: "Stay Updated",
+                description: "Get the latest news and updates about your destination.",
+              },
+            ].map((feature, index) => (
+              <div 
+                key={index}
+                className="bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105 card-animate"
+              >
+                <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
+                  <feature.icon className="w-6 h-6 text-pink-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Cities Grid */}
       <section className="py-20 px-4 fade-in-delay-3">

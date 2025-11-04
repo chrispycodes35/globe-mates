@@ -43,8 +43,7 @@ const PostLoginNavbar = () => {
   const navLinks = [
     { path: '/dashboard', label: 'Home' },
     { path: '/events', label: 'Events' },
-    { path: '/services', label: 'Services' },
-    { path: '/features', label: 'Features' },
+    { path: '/groups', label: 'Groups' },
     { path: '/blog', label: 'Blog' },
   ];
 
@@ -61,7 +60,7 @@ const PostLoginNavbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium text-sm transition-colors ${
+                className={`font-medium text-sm transition-colors cursor-pointer relative z-10 ${
                   isActive(link.path)
                     ? 'text-pink-600 border-b-2 border-pink-600 pb-1'
                     : 'text-gray-700 hover:text-pink-600'

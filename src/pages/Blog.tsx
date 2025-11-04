@@ -1,15 +1,14 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
+import { BookOpen, Calendar } from 'lucide-react';
 
 const Blog = () => {
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const fetchUserData = async () => {

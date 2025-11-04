@@ -1,8 +1,8 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { MapPin, Users, School, Calendar, Music, Utensils, Camera, Globe, Coffee } from 'lucide-react';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
 
