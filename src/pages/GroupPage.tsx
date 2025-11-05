@@ -5,7 +5,8 @@ import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
 import GroupChatMessages from '@/components/GroupChatMessages';
-import { ArrowLeft, Users, MapPin, School } from 'lucide-react';
+import GroupPosts from '@/components/GroupPosts';
+import { ArrowLeft, Users, MapPin, School, MessageCircle, FileText } from 'lucide-react';
 
 interface Group {
   name: string;
@@ -14,29 +15,29 @@ interface Group {
   school?: string;
   members: number;
   category: string;
+  memberIds: string[];
 }
 
-const GroupChat = () => {
+const GroupPage = () => {
   const { groupId } = useParams<{ groupId: string }>();
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState<any>(null);
   const [group, setGroup] = useState<Group | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'chat' | 'posts'>('chat');
 
   useEffect(() => {
     const fetchData = async () => {
       if (!user || !groupId) return;
 
       try {
-        // Fetch user data
         const userDocRef = doc(db, 'users', user.uid);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
           setUserData(userDocSnap.data());
         }
 
-        // Fetch group data
         const groupDocRef = doc(db, 'groups', groupId);
         const groupDocSnap = await getDoc(groupDocRef);
         if (groupDocSnap.exists()) {
@@ -48,6 +49,7 @@ const GroupChat = () => {
             school: data.school,
             members: data.memberIds?.length || 0,
             category: data.category || 'General',
+            memberIds: data.memberIds || [],
           });
         }
       } catch (error) {
@@ -69,7 +71,7 @@ const GroupChat = () => {
             alt="Loading" 
             className="globe-loading h-16 w-16 mx-auto mb-4"
           />
-          <p className="text-gray-600 text-lg">Loading chat...</p>
+          <p className="text-gray-600 text-lg">Loading group...</p>
         </div>
       </div>
     );
@@ -80,6 +82,24 @@ const GroupChat = () => {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Group not found</h2>
+          <button
+            onClick={() => navigate('/groups')}
+            className="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700"
+          >
+            Back to Groups
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const isMember = user && group.memberIds.includes(user.uid);
+
+  if (!isMember) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">You must join this group first</h2>
           <button
             onClick={() => navigate('/groups')}
             className="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700"
@@ -107,7 +127,7 @@ const GroupChat = () => {
               <span>Back to Groups</span>
             </button>
 
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">{group.name}</h1>
                 <p className="text-gray-600 mb-4">{group.description}</p>
@@ -136,22 +156,60 @@ const GroupChat = () => {
                 {group.category}
               </span>
             </div>
+
+            {/* Tabs */}
+            <div className="flex space-x-4 border-b border-gray-200">
+              <button
+                onClick={() => setActiveTab('chat')}
+                className={`flex items-center space-x-2 px-4 py-2 border-b-2 transition-colors ${
+                  activeTab === 'chat'
+                    ? 'border-pink-600 text-pink-600'
+                    : 'border-transparent text-gray-600 hover:text-pink-600'
+                }`}
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>Chat</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`flex items-center space-x-2 px-4 py-2 border-b-2 transition-colors ${
+                  activeTab === 'posts'
+                    ? 'border-pink-600 text-pink-600'
+                    : 'border-transparent text-gray-600 hover:text-pink-600'
+                }`}
+              >
+                <FileText className="w-4 h-4" />
+                <span>Posts</span>
+              </button>
+            </div>
           </div>
 
-          {/* Chat Area */}
-          <div className="bg-white rounded-xl shadow-lg" style={{ height: 'calc(100vh - 400px)', minHeight: '500px' }}>
-            {user && userData && (
-              <GroupChatMessages
-                groupId={groupId!}
-                currentUserId={user.uid}
-                currentUserName={userData.name || user.email || 'Anonymous'}
-              />
-            )}
-          </div>
+          {/* Content Area */}
+          {activeTab === 'chat' ? (
+            <div className="bg-white rounded-xl shadow-lg" style={{ height: 'calc(100vh - 450px)', minHeight: '500px' }}>
+              {user && userData && (
+                <GroupChatMessages
+                  groupId={groupId!}
+                  currentUserId={user.uid}
+                  currentUserName={userData.name || user.email || 'Anonymous'}
+                />
+              )}
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-lg overflow-y-auto" style={{ maxHeight: 'calc(100vh - 450px)', minHeight: '500px' }}>
+              {user && userData && (
+                <GroupPosts
+                  groupId={groupId!}
+                  currentUserId={user.uid}
+                  currentUserName={userData.name || user.email || 'Anonymous'}
+                />
+              )}
+            </div>
+          )}
         </div>
       </main>
     </div>
   );
 };
 
-export default GroupChat;
+export default GroupPage;

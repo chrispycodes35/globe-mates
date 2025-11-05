@@ -104,7 +104,7 @@ const GroupCard = ({
             className="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors font-medium flex items-center justify-center space-x-2"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>Open Chat</span>
+            <span>Open Group</span>
           </button>
         ) : (
           <button

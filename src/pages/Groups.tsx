@@ -121,8 +121,8 @@ const Groups = () => {
     }
   };
 
-  const handleOpenChat = (groupId: string) => {
-    navigate(`/groups/${groupId}/chat`);
+  const handleOpenGroup = (groupId: string) => {
+    navigate(`/groups/${groupId}`);
   };
 
   const filteredJoinedGroups = joinedGroups.filter(group =>
@@ -200,7 +200,7 @@ const Groups = () => {
                     members={group.members}
                     category={group.category}
                     isJoined={true}
-                    onOpenChat={handleOpenChat}
+                    onOpenChat={handleOpenGroup}
                   />
                 ))}
               </div>

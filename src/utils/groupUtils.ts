@@ -22,7 +22,7 @@ export const initializeDefaultGroups = async (userId: string, userData: any) => 
       name: 'GlobeMates Community',
       description: 'Connect with students from all around the world',
       category: 'General',
-      memberIds: [userId],
+      memberIds: [],
       isDefault: true,
       createdAt: serverTimestamp(),
     };
@@ -43,7 +43,7 @@ export const initializeDefaultGroups = async (userId: string, userData: any) => 
         description: `Connect with students in ${city}`,
         location: city,
         category: 'Location-Based',
-        memberIds: [userId],
+        memberIds: [],
         isDefault: true,
         createdAt: serverTimestamp(),
       };
@@ -68,7 +68,7 @@ export const initializeDefaultGroups = async (userId: string, userData: any) => 
         school: userData.school,
         location: userData?.location?.split(',')[0].trim(),
         category: 'Study Group',
-        memberIds: [userId],
+        memberIds: [],
         isDefault: true,
         createdAt: serverTimestamp(),
       };
