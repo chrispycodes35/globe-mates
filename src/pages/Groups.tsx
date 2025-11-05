@@ -2,9 +2,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 import { doc, getDoc, collection, query, where, getDocs, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
 import GroupCard from '@/components/GroupCard';
 import { Users, Search } from 'lucide-react';
+import { initializeDefaultGroups } from '@/utils/groupUtils';
 
 interface Group {
   id: string;
@@ -18,12 +20,14 @@ interface Group {
 }
 
 const Groups = () => {
+  const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [joinedGroups, setJoinedGroups] = useState<Group[]>([]);
   const [relevantGroups, setRelevantGroups] = useState<Group[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [groupsInitialized, setGroupsInitialized] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,6 +38,12 @@ const Groups = () => {
           if (userDocSnap.exists()) {
             const data = userDocSnap.data();
             setUserData(data);
+            
+            // Initialize default groups for the user
+            if (!groupsInitialized) {
+              await initializeDefaultGroups(user.uid, data);
+              setGroupsInitialized(true);
+            }
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -41,7 +51,7 @@ const Groups = () => {
       }
     };
     fetchUserData();
-  }, [user]);
+  }, [user, groupsInitialized]);
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -112,8 +122,7 @@ const Groups = () => {
   };
 
   const handleOpenChat = (groupId: string) => {
-    // Navigate to group chat page
-    window.location.href = `/groups/${groupId}/chat`;
+    navigate(`/groups/${groupId}/chat`);
   };
 
   const filteredJoinedGroups = joinedGroups.filter(group =>

@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Events from "./pages/Events";
 import Blog from "./pages/Blog";
 import Groups from "./pages/Groups";
+import GroupChat from "./pages/GroupChat";
 import About from "./pages/About";
 import Privacy from "./pages/Privacy";
 import Destinations from "./pages/Destinations";
@@ -66,6 +67,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <Groups />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/groups/:groupId/chat" 
+            element={
+              <ProtectedRoute>
+                <GroupChat />
               </ProtectedRoute>
             } 
           />
