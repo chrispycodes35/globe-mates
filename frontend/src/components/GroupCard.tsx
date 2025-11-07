@@ -6,6 +6,7 @@ interface GroupCardProps {
   name: string;
   description: string;
   location?: string;
+  program?: string;
   school?: string;
   members: number;
   category: string;
@@ -16,6 +17,7 @@ interface GroupCardProps {
 
 const categoryIcons: Record<string, typeof Users> = {
   'Study Group': School,
+  'Program Group': School,
   'Social': Users,
   'Location-Based': MapPin,
   'Events': Calendar,
@@ -27,6 +29,7 @@ const GroupCard = ({
   name, 
   description, 
   location, 
+  program,
   school, 
   members, 
   category, 
@@ -74,17 +77,23 @@ const GroupCard = ({
       <p className="text-gray-600 mb-4 line-clamp-2">{description}</p>
 
       <div className="flex items-center justify-between text-sm text-gray-500">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 flex-wrap">
           {location && (
             <div className="flex items-center space-x-1">
               <MapPin className="w-4 h-4" />
-              <span>{location}</span>
+              <span>{location.split(',')[0]}</span>
+            </div>
+          )}
+          {program && (
+            <div className="flex items-center space-x-1">
+              <School className="w-4 h-4" />
+              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{program}</span>
             </div>
           )}
           {school && (
             <div className="flex items-center space-x-1">
               <School className="w-4 h-4" />
-              <span>{school}</span>
+              <span className="truncate max-w-[150px]">{school}</span>
             </div>
           )}
         </div>
@@ -104,7 +113,7 @@ const GroupCard = ({
             className="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors font-medium flex items-center justify-center space-x-2"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>Open Group</span>
+            <span>Open Chat</span>
           </button>
         ) : (
           <button

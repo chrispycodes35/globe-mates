@@ -6,6 +6,7 @@ import { auth } from "../firebase";
 import PreLoginNavbar from "@/components/PreLoginNavbar";
 import Footer from "@/components/Footer";
 import { School, MapPin, Calendar, Users } from "lucide-react";
+import heroImage from "@/assets/hero-community.jpg";
 
 const howItWorksSteps: Step[] = [
   {
@@ -78,7 +79,7 @@ const Index = () => {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
-            src={new URL('../assets/hero-community.jpg', import.meta.url).href}
+            src={heroImage}
             alt="International students connecting"
             className="w-full h-full object-cover"
           />
@@ -149,13 +150,13 @@ const Index = () => {
             </Link>
           </div>
         </div>
-
+            
         {/* Testimonials Section */}
-            <div>
+        <div>
           <TestimonialSection />
         </div>
       </div>
-
+          
       {/* Footer */}
       <Footer />
     </div>

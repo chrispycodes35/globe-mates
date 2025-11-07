@@ -12,6 +12,7 @@ interface Group {
   name: string;
   description: string;
   location?: string;
+  program?: string;
   school?: string;
   members: number;
   category: string;
@@ -46,6 +47,7 @@ const GroupPage = () => {
             name: data.name || 'Untitled Group',
             description: data.description || '',
             location: data.location,
+            program: data.program,
             school: data.school,
             members: data.memberIds?.length || 0,
             category: data.category || 'General',
@@ -98,14 +100,29 @@ const GroupPage = () => {
   if (!isMember) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">You must join this group first</h2>
-          <button
-            onClick={() => navigate('/groups')}
-            className="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700"
-          >
-            Back to Groups
-          </button>
+        <PostLoginNavbar />
+        <div className="text-center max-w-md mx-auto px-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Join to Access This Group</h2>
+          <p className="text-gray-600 mb-6">
+            You need to join <strong>{group.name}</strong> before you can access the chat and posts.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => navigate('/groups')}
+              className="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition-colors"
+            >
+              Back to Groups
+            </button>
+            <button
+              onClick={() => {
+                // Navigate to groups page and scroll to this group
+                navigate('/groups', { state: { highlightGroup: groupId } });
+              }}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Join This Group
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -132,17 +149,25 @@ const GroupPage = () => {
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">{group.name}</h1>
                 <p className="text-gray-600 mb-4">{group.description}</p>
                 
-                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                <div className="flex items-center space-x-4 text-sm text-gray-500 flex-wrap">
                   {group.location && (
                     <div className="flex items-center space-x-1">
                       <MapPin className="w-4 h-4" />
                       <span>{group.location}</span>
                     </div>
                   )}
+                  {group.program && (
+                    <div className="flex items-center space-x-1">
+                      <School className="w-4 h-4" />
+                      <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-medium">
+                        {group.program}
+                      </span>
+                    </div>
+                  )}
                   {group.school && (
                     <div className="flex items-center space-x-1">
                       <School className="w-4 h-4" />
-                      <span>{group.school}</span>
+                      <span className="truncate max-w-[200px]">{group.school}</span>
                     </div>
                   )}
                   <div className="flex items-center space-x-1">
