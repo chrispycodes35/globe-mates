@@ -329,64 +329,54 @@ app.get('/api/groups', async (req, res) => {
         const groupCity = normalizeCityName(group.location);
         const groupProgram = normalizeProgramName(group.program);
         
-        // Perfect match: same location AND same program (highest priority)
-        if (userCity && userProgram && groupCity === userCity && groupProgram === userProgram) {
+        // ONLY show groups for the user's city
+        if (!userCity || groupCity !== userCity) {
+          return false;
+        }
+        
+        // For groups in user's city, show:
+        // 1. Perfect match: same location AND same program
+        if (userProgram && groupProgram && groupProgram === userProgram) {
           console.log(`✅ Perfect match: ${group.name} (${groupCity}, ${groupProgram})`);
           return true;
         }
         
-        // Location match: same city (high priority)
-        if (userCity && groupCity && groupCity === userCity) {
-          console.log(`📍 Location match: ${group.name} (${groupCity})`);
+        // 2. General city-wide groups (City Group, First Program Group)
+        if (group.category === 'Location-Based' || group.category === 'Study Group') {
+          console.log(`📍 City-wide group: ${group.name} (${groupCity})`);
           return true;
         }
         
-        // Program match: same program type (medium priority)
-        if (userProgram && groupProgram && groupProgram === userProgram) {
-          console.log(`🎓 Program match: ${group.name} (${groupProgram})`);
-          return true;
-        }
-        
-        // General location-based groups for user's city
-        if (userCity && groupCity === userCity && (group.category === 'Location-Based' || group.category === 'Study Group')) {
-          return true;
-        }
-        
-        // School match (if specified)
+        // 3. School match in same city (if specified)
         if (userData.school && group.school && group.school === userData.school) {
           return true;
         }
         
+        // Don't show other program groups from the same city
         return false;
       })
       .sort((a, b) => {
-        const aCity = normalizeCityName(a.location);
-        const bCity = normalizeCityName(b.location);
         const aProgram = normalizeProgramName(a.program);
         const bProgram = normalizeProgramName(b.program);
         
-        // Perfect matches first (location + program)
-        const aPerfectMatch = userCity && userProgram && aCity === userCity && aProgram === userProgram;
-        const bPerfectMatch = userCity && userProgram && bCity === userCity && bProgram === userProgram;
+        // Perfect match (user's program) comes first
+        const aPerfectMatch = userProgram && aProgram === userProgram;
+        const bPerfectMatch = userProgram && bProgram === userProgram;
         
         if (aPerfectMatch && !bPerfectMatch) return -1;
         if (!aPerfectMatch && bPerfectMatch) return 1;
         
-        // Location matches second
-        const aLocationMatch = userCity && aCity === userCity;
-        const bLocationMatch = userCity && bCity === userCity;
-        if (aLocationMatch && !bLocationMatch) return -1;
-        if (!aLocationMatch && bLocationMatch) return 1;
-        
-        // Program matches third
-        const aProgramMatch = userProgram && aProgram === userProgram;
-        const bProgramMatch = userProgram && bProgram === userProgram;
-        if (aProgramMatch && !bProgramMatch) return -1;
-        if (!aProgramMatch && bProgramMatch) return 1;
-        
-        // Program Groups prioritized over other categories
+        // Then Program Groups (before general groups)
         if (a.category === 'Program Group' && b.category !== 'Program Group') return -1;
         if (a.category !== 'Program Group' && b.category === 'Program Group') return 1;
+        
+        // Location-Based groups next
+        if (a.category === 'Location-Based' && b.category !== 'Location-Based') return -1;
+        if (a.category !== 'Location-Based' && b.category === 'Location-Based') return 1;
+        
+        // Study Groups last
+        if (a.category === 'Study Group' && b.category !== 'Study Group') return -1;
+        if (a.category !== 'Study Group' && b.category === 'Study Group') return 1;
         
         return 0;
       });
