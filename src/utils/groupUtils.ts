@@ -9,6 +9,7 @@ const SUPPORTED_CITIES = [
   { name: "Copenhagen", country: "Denmark", location: "Copenhagen, Denmark" },
   { name: "Milan", country: "Italy", location: "Milan, Italy" },
   { name: "Rome", country: "Italy", location: "Rome, Italy" },
+  { name: "Beirut", country: "Lebanon", location: "Beirut, Lebanon" },
 ];
 
 // Common program types that should have dedicated groups

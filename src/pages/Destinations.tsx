@@ -9,6 +9,7 @@ const cities: City[] = [
   { name: "Copenhagen", country: "Denmark", slug: "copenhagen", gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" },
   { name: "Milan", country: "Italy", slug: "milan", gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
   { name: "Rome", country: "Italy", slug: "rome", gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)" },
+  { name: "Beirut", country: "Lebanon", slug: "beirut", gradient: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)" },
 ];
 
 const Destinations = () => {

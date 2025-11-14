@@ -94,6 +94,7 @@ const SUPPORTED_CITIES = [
   { name: "Copenhagen", country: "Denmark", location: "Copenhagen, Denmark" },
   { name: "Milan", country: "Italy", location: "Milan, Italy" },
   { name: "Rome", country: "Italy", location: "Rome, Italy" },
+  { name: "Beirut", country: "Lebanon", location: "Beirut, Lebanon" },
 ];
 
 const PROGRAM_TYPES = [
@@ -108,14 +109,23 @@ const PROGRAM_TYPES = [
 // Calculate expected group count for logging
 const EXPECTED_GROUP_COUNT = SUPPORTED_CITIES.length * (PROGRAM_TYPES.length + 2); // Program groups + City group + First Program group
 
-// Helper function to normalize city names
+// Helper function to normalize city names for matching
 const normalizeCityName = (location) => {
   if (!location) return '';
+  // Extract city name (before comma) and normalize
   const city = location.split(',')[0].toLowerCase().trim();
+  // Handle special cases
   return city
     .replace(/^new york city$/, 'new york')
     .replace(/^new york$/, 'new york')
-    .replace(/\s+/g, ' ');
+    .replace(/\s+/g, ' ')
+    .trim();
+};
+
+// Helper function to normalize program names for matching
+const normalizeProgramName = (program) => {
+  if (!program) return '';
+  return program.toLowerCase().trim();
 };
 
 // Initialize default groups
@@ -193,18 +203,32 @@ const initializeDefaultGroups = async () => {
 
     // Create all groups
     let createdCount = 0;
+    let skippedCount = 0;
+    
+    console.log(`📝 Creating ${groupsToCreate.length} groups...`);
+    
     for (const group of groupsToCreate) {
       try {
         await group.ref.set(group.data);
         createdCount++;
-        console.log(`✅ Created group: ${group.data.name}`);
+        console.log(`✅ Created: ${group.data.name} (${group.data.location}, ${group.data.program || 'N/A'})`);
       } catch (error) {
-        console.error(`❌ Failed to create group ${group.data.name}:`, error);
+        console.error(`❌ Failed to create ${group.data.name}:`, error);
       }
     }
+    
+    // Count existing groups
+    const existingGroupsSnapshot = await db.collection('groups').get();
+    const totalGroups = existingGroupsSnapshot.size;
+    skippedCount = totalGroups - createdCount;
 
-    console.log(`✅ Initialization complete: ${createdCount} groups created`);
-    return { success: true, created: createdCount, total: groupsToCreate.length };
+    console.log(`✅ Initialization complete:`);
+    console.log(`   - Created: ${createdCount} new groups`);
+    console.log(`   - Already existed: ${skippedCount} groups`);
+    console.log(`   - Total groups in database: ${totalGroups}`);
+    console.log(`   - Expected: ${EXPECTED_GROUP_COUNT} groups (${SUPPORTED_CITIES.length} cities × ${PROGRAM_TYPES.length + 2} group types)`);
+    
+    return { success: true, created: createdCount, total: groupsToCreate.length, existing: skippedCount };
   } catch (error) {
     console.error('❌ Error initializing groups:', error);
     throw error;
@@ -291,38 +315,45 @@ app.get('/api/groups', async (req, res) => {
       group.memberIds.includes(userId)
     );
 
+    // Normalize user data for matching
     const userCity = normalizeCityName(userData.location);
-    const userProgram = userData.program ? userData.program.toLowerCase().trim() : '';
+    const userProgram = normalizeProgramName(userData.program);
+
+    console.log(`🔍 Matching groups for user: city="${userCity}", program="${userProgram}"`);
 
     const relevant = allGroups
       .filter((group) => {
+        // Skip groups user is already in
         if (group.memberIds.includes(userId)) return false;
         
         const groupCity = normalizeCityName(group.location);
-        const groupProgram = group.program?.toLowerCase().trim() || '';
+        const groupProgram = normalizeProgramName(group.program);
         
-        // Perfect match: same location AND same program
+        // Perfect match: same location AND same program (highest priority)
         if (userCity && userProgram && groupCity === userCity && groupProgram === userProgram) {
+          console.log(`✅ Perfect match: ${group.name} (${groupCity}, ${groupProgram})`);
           return true;
         }
         
-        // Location match
-        if (userCity && groupCity === userCity) {
+        // Location match: same city (high priority)
+        if (userCity && groupCity && groupCity === userCity) {
+          console.log(`📍 Location match: ${group.name} (${groupCity})`);
           return true;
         }
         
-        // Program match
-        if (userProgram && groupProgram === userProgram) {
+        // Program match: same program type (medium priority)
+        if (userProgram && groupProgram && groupProgram === userProgram) {
+          console.log(`🎓 Program match: ${group.name} (${groupProgram})`);
           return true;
         }
         
-        // General groups
-        if (group.category === 'Location-Based' || group.category === 'Study Group') {
+        // General location-based groups for user's city
+        if (userCity && groupCity === userCity && (group.category === 'Location-Based' || group.category === 'Study Group')) {
           return true;
         }
         
-        // School match
-        if (userData.school && group.school === userData.school) {
+        // School match (if specified)
+        if (userData.school && group.school && group.school === userData.school) {
           return true;
         }
         
@@ -331,15 +362,29 @@ app.get('/api/groups', async (req, res) => {
       .sort((a, b) => {
         const aCity = normalizeCityName(a.location);
         const bCity = normalizeCityName(b.location);
-        const aProgram = a.program?.toLowerCase().trim() || '';
-        const bProgram = b.program?.toLowerCase().trim() || '';
+        const aProgram = normalizeProgramName(a.program);
+        const bProgram = normalizeProgramName(b.program);
         
+        // Perfect matches first (location + program)
         const aPerfectMatch = userCity && userProgram && aCity === userCity && aProgram === userProgram;
         const bPerfectMatch = userCity && userProgram && bCity === userCity && bProgram === userProgram;
         
         if (aPerfectMatch && !bPerfectMatch) return -1;
         if (!aPerfectMatch && bPerfectMatch) return 1;
         
+        // Location matches second
+        const aLocationMatch = userCity && aCity === userCity;
+        const bLocationMatch = userCity && bCity === userCity;
+        if (aLocationMatch && !bLocationMatch) return -1;
+        if (!aLocationMatch && bLocationMatch) return 1;
+        
+        // Program matches third
+        const aProgramMatch = userProgram && aProgram === userProgram;
+        const bProgramMatch = userProgram && bProgram === userProgram;
+        if (aProgramMatch && !bProgramMatch) return -1;
+        if (!aProgramMatch && bProgramMatch) return 1;
+        
+        // Program Groups prioritized over other categories
         if (a.category === 'Program Group' && b.category !== 'Program Group') return -1;
         if (a.category !== 'Program Group' && b.category === 'Program Group') return 1;
         
