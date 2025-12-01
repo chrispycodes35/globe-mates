@@ -2,54 +2,14 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { MapPin, Users, School, Coffee, Camera, Utensils, Globe, Calendar, Music, Heart, Shield, Zap, Star, Award, TrendingUp } from 'lucide-react';
-import CityCard from '@/components/CityCard';
+import { MapPin, Users, School, Heart, Shield, Zap } from 'lucide-react';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
-
-const cities = [
-  { name: "Tokyo", country: "Japan", slug: "tokyo", gradient: "linear-gradient(135deg, #FF6B9D 0%, #C06C84 100%)" },
-  { name: "Paris", country: "France", slug: "paris", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
-  { name: "London", country: "England", slug: "london", gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" },
-  { name: "New York City", country: "USA", slug: "new-york", gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
-  { name: "Copenhagen", country: "Denmark", slug: "copenhagen", gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 %)" },
-  { name: "Milan", country: "Italy", slug: "milan", gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
-  { name: "Rome", country: "Italy", slug: "rome", gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)" },
-];
-
-// Sample events data organized by categories
-const getEventsForLocation = (location: string) => {
-  const cityName = location?.toLowerCase().split(',')[0] || '';
-  
-  return {
-    programEvents: [
-      { title: "Welcome Orientation", date: "Every Monday 2PM", location: "Student Center", icon: School, color: "text-blue-600" },
-      { title: "Language Exchange Meetup", date: "Fridays 6PM", location: "Café Central", icon: Coffee, color: "text-orange-600" },
-      { title: "Academic Workshop: Local Culture", date: "Nov 15", location: "Main Campus", icon: Globe, color: "text-purple-600" },
-    ],
-    studentLed: [
-      { title: "Weekend Hiking Trip", date: "Saturdays", location: "Mountains", icon: MapPin, color: "text-green-600" },
-      { title: "Photography Walk", date: "Sundays 9AM", location: "Historic District", icon: Camera, color: "text-pink-600" },
-      { title: "Foodie Club Gathering", date: "Thursdays 7PM", location: "Local Market", icon: Utensils, color: "text-red-600" },
-    ],
-    localEvents: [
-      { title: "Local Music Festival", date: "Nov 20-22", location: "City Park", icon: Music, color: "text-indigo-600" },
-      { title: "Cultural Heritage Tour", date: "Every Friday 10AM", location: "Museum District", icon: Camera, color: "text-teal-600" },
-      { title: "Local Food Market Day", date: "Saturdays 8AM-2PM", location: "Main Square", icon: Utensils, color: "text-amber-600" },
-    ],
-    broaderLocation: [
-      { title: "Regional Study Abroad Summit", date: "Dec 5", location: "Convention Center", icon: Users, color: "text-violet-600" },
-      { title: "Country-wide Student Network Meet", date: "Monthly", location: "Various Cities", icon: Globe, color: "text-cyan-600" },
-      { title: "International Student Conference", date: "Dec 10-12", location: "Regional City", icon: Calendar, color: "text-rose-600" },
-    ],
-  };
-};
+import ExpertLocals from '@/components/ExpertLocals';
 
 const Dashboard = () => {
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -86,13 +46,6 @@ const Dashboard = () => {
     );
   }
 
-  // Find user's destination city if available
-  const userCity = userData?.location ? cities.find(city => 
-    city.name.toLowerCase() === userData.location.split(',')[0].toLowerCase()
-  ) : null;
-
-  // Get events for user's location
-  const events = userData?.location ? getEventsForLocation(userData.location) : null;
 
   return (
     <div className="min-h-screen bg-white fade-in">
@@ -134,6 +87,11 @@ const Dashboard = () => {
           )}
         </div>
       </section>
+
+      {/* Expert Locals Section */}
+      {userData?.location && (
+        <ExpertLocals location={userData.location} />
+      )}
 
       {/* Services Section */}
       <section className="py-20 px-4 bg-white/90">
@@ -201,101 +159,6 @@ const Dashboard = () => {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
                 <p className="text-gray-600 text-sm">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-              Platform Features
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover what makes GlobeMates your perfect study abroad companion
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Calendar,
-                title: "Event Calendar",
-                description: "Never miss important events, orientations, or social gatherings.",
-              },
-              {
-                icon: MapPin,
-                title: "City Guides",
-                description: "Comprehensive guides to help you navigate your new city.",
-              },
-              {
-                icon: Users,
-                title: "Connect with Peers",
-                description: "Build your network with fellow study abroad students.",
-              },
-              {
-                icon: Star,
-                title: "Personalized Experience",
-                description: "Content tailored to your location and interests.",
-              },
-              {
-                icon: Award,
-                title: "Expert Insights",
-                description: "Tips and advice from experienced study abroad students.",
-              },
-              {
-                icon: TrendingUp,
-                title: "Stay Updated",
-                description: "Get the latest news and updates about your destination.",
-              },
-            ].map((feature, index) => (
-              <div 
-                key={index}
-                className="bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105 card-animate"
-              >
-                <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-pink-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Cities Grid */}
-      <section className="py-20 px-4 fade-in-delay-3">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              {userCity ? `Your Journey to ${userCity.name}` : 'Explore Your Destination'}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Select a city to access events, resources, and local knowledge
-            </p>
-          </div>
-        
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {cities.map((city, index) => (
-              <div 
-                key={city.slug}
-                className={`card-animate ${
-                  userCity && city.slug === userCity.slug 
-                    ? 'ring-4 ring-pink-500 ring-offset-2' 
-                    : ''
-                }`}
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <CityCard
-                  name={city.name}
-                  country={city.country}
-                  slug={city.slug}
-                  gradient={city.gradient}
-                />
               </div>
             ))}
           </div>
