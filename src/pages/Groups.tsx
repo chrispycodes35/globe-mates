@@ -169,7 +169,17 @@ const Groups = () => {
   };
 
   const handleOpenGroup = (groupId: string) => {
-    navigate(`/groups/${groupId}`);
+    // Find the group from joined or relevant groups so we can pass metadata to the group page
+    const group =
+      joinedGroups.find((g) => g.id === groupId) ||
+      relevantGroups.find((g) => g.id === groupId) ||
+      allGroups.find((g) => g.id === groupId);
+
+    navigate(`/groups/${groupId}`, {
+      state: {
+        group,
+      },
+    });
   };
 
   const handleManualInit = async () => {
@@ -207,7 +217,7 @@ const Groups = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 fade-in">
+      <div className="flex items-center justify-center min-h-screen bg-white fade-in">
         <div className="text-center">
           <img 
             src="/images/globe.svg" 
@@ -221,16 +231,16 @@ const Groups = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 fade-in">
+    <div className="min-h-screen bg-white fade-in">
       <PostLoginNavbar />
 
-      <main className="py-20 px-4">
+      <main className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
               Groups & Communities
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light mb-8">
               Connect with fellow students, join study groups, and build your network
             </p>
 

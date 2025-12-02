@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -22,9 +22,11 @@ interface Group {
 const GroupPage = () => {
   const { groupId } = useParams<{ groupId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialGroup = (location.state as any)?.group || null;
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState<any>(null);
-  const [group, setGroup] = useState<Group | null>(null);
+  const [group, setGroup] = useState<Group | null>(initialGroup);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'chat' | 'posts'>('chat');
 
@@ -44,15 +46,18 @@ const GroupPage = () => {
         if (groupDocSnap.exists()) {
           const data = groupDocSnap.data();
           setGroup({
-            name: data.name || 'Untitled Group',
-            description: data.description || '',
-            location: data.location,
-            program: data.program,
-            school: data.school,
-            members: data.memberIds?.length || 0,
-            category: data.category || 'General',
-            memberIds: data.memberIds || [],
+            name: data.name || initialGroup?.name || 'Untitled Group',
+            description: data.description || initialGroup?.description || '',
+            location: data.location ?? initialGroup?.location,
+            program: data.program ?? initialGroup?.program,
+            school: data.school ?? initialGroup?.school,
+            members: data.memberIds?.length || initialGroup?.members || 0,
+            category: data.category || initialGroup?.category || 'General',
+            memberIds: data.memberIds || initialGroup?.memberIds || [],
           });
+        } else if (initialGroup) {
+          // Fallback to the group info we received from navigation state
+          setGroup(initialGroup);
         }
       } catch (error) {
         console.error('Error fetching data:', error);

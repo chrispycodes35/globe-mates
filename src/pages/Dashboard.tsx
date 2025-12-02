@@ -2,9 +2,10 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { MapPin, Users, School, Heart, Shield, Zap } from 'lucide-react';
+import { School, Heart, Shield, Zap, MapPin, Users } from 'lucide-react';
 import PostLoginNavbar from '@/components/PostLoginNavbar';
 import ExpertLocals from '@/components/ExpertLocals';
+import { Button } from '@/components/ui/button';
 
 const Dashboard = () => {
   const [user] = useAuthState(auth);
@@ -31,9 +32,35 @@ const Dashboard = () => {
     fetchUserData();
   }, [user]);
 
+  // Get user's display name
+  const getUserDisplayName = () => {
+    if (userData?.name) return userData.name;
+    if (user?.displayName) return user.displayName;
+    if (user?.email) {
+      // Extract name from email (before @)
+      const emailName = user.email.split('@')[0];
+      return emailName.split('.')[0].charAt(0).toUpperCase() + emailName.split('.')[0].slice(1);
+    }
+    return 'there';
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Account for sticky navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-200 via-gold-300 to-white-400">
+      <div className="flex items-center justify-center min-h-screen bg-white">
         <div className="text-center">
           <img 
             src="/images/globe.svg" 
@@ -52,49 +79,51 @@ const Dashboard = () => {
       <PostLoginNavbar />
 
       {/* Welcome Section */}
-      <section className="relative pt-24 pb-20 px-4 bg-gradient-to-br from-pink-200 via-gold-300 to-white-400">
+      <section className="relative pt-24 pb-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center fade-in-delay-1">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Welcome back{userData && userData.school ? ` from ${userData.school}` : ''}! 👋
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-gray-900">
+              Welcome back, {getUserDisplayName()}! 👋
             </h1>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto mb-8">
+            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-light leading-relaxed mb-8">
               {userData?.location 
                 ? `Ready to explore ${userData.location}? Let's make your study abroad experience unforgettable.`
                 : 'Your study abroad journey starts here. Discover cities, connect with peers, and immerse yourself in local culture.'}
             </p>
+            
+            {/* Quick Navigation Buttons */}
+            {userData?.location && (
+              <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+                <Button
+                  onClick={() => scrollToSection('expert-locals')}
+                  className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white"
+                >
+                  <Users className="w-4 h-4 mr-2" />
+                  Connect with Experts
+                </Button>
+                <Button
+                  onClick={() => scrollToSection('services')}
+                  variant="outline"
+                  className="border-2 border-pink-500 text-pink-600 hover:bg-pink-50"
+                >
+                  <Heart className="w-4 h-4 mr-2" />
+                  Explore Services
+                </Button>
+              </div>
+            )}
           </div>
-
-          {/* Quick Stats or User Info */}
-          {userData && (
-            <div className="grid md:grid-cols-3 gap-6 mt-12 fade-in-delay-2">
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg card-animate smooth-transition hover:shadow-xl hover:scale-105">
-                <School className="w-8 h-8 text-pink-600 mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-1">Your Program</h3>
-                <p className="text-gray-600">{userData.program || 'Not specified'}</p>
-              </div>
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg card-animate smooth-transition hover:shadow-xl hover:scale-105">
-                <MapPin className="w-8 h-8 text-pink-600 mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-1">Destination</h3>
-                <p className="text-gray-600">{userData.location || 'Not specified'}</p>
-              </div>
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg card-animate smooth-transition hover:shadow-xl hover:scale-105">
-                <Users className="w-8 h-8 text-pink-600 mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-1">Group</h3>
-                <p className="text-gray-600">Find study buddies in your city</p>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
       {/* Expert Locals Section */}
       {userData?.location && (
-        <ExpertLocals location={userData.location} />
+        <div id="expert-locals">
+          <ExpertLocals location={userData.location} />
+        </div>
       )}
 
       {/* Services Section */}
-      <section className="py-20 px-4 bg-white/90">
+      <section id="services" className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">

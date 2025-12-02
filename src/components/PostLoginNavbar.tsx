@@ -44,6 +44,7 @@ const PostLoginNavbar = () => {
     { path: '/dashboard', label: 'Home' },
     { path: '/events', label: 'Events' },
     { path: '/groups', label: 'Groups' },
+    { path: '/announcements', label: 'Announcements' },
     { path: '/blog', label: 'Blog' },
   ];
 

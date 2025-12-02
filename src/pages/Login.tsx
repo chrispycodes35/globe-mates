@@ -29,15 +29,15 @@ const Login = () => {
   }, [user, navigate, from]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-white">
       <PreLoginNavbar />
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center py-12">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h1 className="text-3xl font-bold text-center mb-6">Welcome Back</h1>
-            <p className="text-center text-gray-600 mb-6">Sign in to continue your journey</p>
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+            <h1 className="text-3xl font-bold text-center mb-4 text-gray-900">Welcome Back</h1>
+            <p className="text-center text-gray-600 mb-6 font-light">Sign in to continue your journey</p>
 
             <div className="space-y-4">
               <div>

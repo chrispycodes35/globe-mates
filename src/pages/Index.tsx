@@ -123,7 +123,7 @@ const Index = () => {
       </section>
 
       {/* Combined Section with Unified Background */}
-      <div className="py-20 px-4 bg-gradient-to-br from-white via-orange-50 to-orange-100">
+      <div className="py-20 px-4 bg-white">
         {/* How It Works Section */}
         <div className="pb-20">
           <HowItWorks steps={howItWorksSteps} />
@@ -131,11 +131,11 @@ const Index = () => {
         
         {/* Destinations CTA */}
         <div className="pb-20 text-center">
-          <div className="max-w-7xl mx-auto border-2 border-orange-600 rounded-xl p-8 shadow-lg">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+          <div className="max-w-7xl mx-auto border border-gray-200 rounded-xl p-8 shadow-lg bg-white">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
               Explore Your City
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-4 font-light">
               Select a city to access events, resources, and local culture
             </p>
             <p className="text-base text-gray-500 max-w-2xl mx-auto mb-8">

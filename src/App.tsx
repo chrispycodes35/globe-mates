@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Events from "./pages/Events";
 import Blog from "./pages/Blog";
+import Announcements from "./pages/Announcements";
 import Groups from "./pages/Groups";
 import GroupPage from "./pages/GroupPage";
 import About from "./pages/About";
@@ -83,6 +84,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <Blog />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/announcements"
+            element={
+              <ProtectedRoute>
+                <Announcements />
               </ProtectedRoute>
             } 
           />
