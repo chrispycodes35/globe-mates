@@ -333,7 +333,7 @@ const Events = () => {
                   </div>
                   <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                     <DialogTrigger asChild>
-                      <Button className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600">
+                      <Button className="bg-[hsl(var(--globemates-gold))] hover:bg-[hsl(var(--globemates-gold-dark))] text-black font-medium">
                         <Plus className="w-4 h-4 mr-2" />
                         Post Event
                       </Button>
@@ -424,7 +424,7 @@ const Events = () => {
                       <p className="text-gray-600 mb-4">Be the first to post an event for your program mates!</p>
                       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                         <DialogTrigger asChild>
-                          <Button className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600">
+                          <Button className="bg-[hsl(var(--globemates-gold))] hover:bg-[hsl(var(--globemates-gold-dark))] text-black font-medium">
                             <Plus className="w-4 h-4 mr-2" />
                             Post First Event
                           </Button>

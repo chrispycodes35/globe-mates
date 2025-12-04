@@ -96,7 +96,7 @@ const Dashboard = () => {
               <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
                 <Button
                   onClick={() => scrollToSection('expert-locals')}
-                  className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white"
+                  className="bg-[hsl(var(--globemates-gold))] hover:bg-[hsl(var(--globemates-gold-dark))] text-black font-medium"
                 >
                   <Users className="w-4 h-4 mr-2" />
                   Connect with Experts
