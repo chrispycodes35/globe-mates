@@ -234,7 +234,7 @@ const Signup = () => {
             <Button 
               onClick={handleSignup} 
               disabled={loading} 
-              className="w-full mt-6"
+              className="w-full mt-6 bg-[#FF9C00] hover:bg-[#E08A00] text-black font-medium"
             >
               {loading ? 'Creating Account...' : 'Sign Up'}
             </Button>
@@ -243,7 +243,7 @@ const Signup = () => {
 
             <p className="text-center text-sm text-gray-600 mt-6">
               Already have an account?{' '}
-              <Link to="/login" className="text-pink-600 hover:underline font-medium">
+              <Link to="/login" className="text-[#FF9C00] hover:underline font-medium">
                 Log in
               </Link>
             </p>

@@ -42,9 +42,9 @@ const PostLoginNavbar = () => {
 
   const navLinks = [
     { path: '/dashboard', label: 'Home' },
-    { path: '/events', label: 'Events' },
+    { path: '/announcements', label: 'Announcements', badge: 3 },
     { path: '/groups', label: 'Groups' },
-    { path: '/announcements', label: 'Announcements' },
+    { path: '/events', label: 'Events' },
     { path: '/blog', label: 'Blog' },
   ];
 
@@ -52,7 +52,7 @@ const PostLoginNavbar = () => {
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/dashboard" className="font-bold text-xl text-gray-900 hover:text-pink-600 transition-colors">
+          <Link to="/dashboard" className="font-bold text-xl text-gray-900 hover:text-[#FF9C00] transition-colors">
             GlobeMates
           </Link>
 
@@ -61,13 +61,18 @@ const PostLoginNavbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium text-sm transition-colors cursor-pointer relative z-10 ${
+                className={`font-medium text-sm transition-colors cursor-pointer relative z-10 flex items-center gap-1.5 ${
                   isActive(link.path)
-                    ? 'text-pink-600 border-b-2 border-pink-600 pb-1'
-                    : 'text-gray-700 hover:text-pink-600'
+                    ? 'text-[#FF9C00] border-b-2 border-[#FF9C00] pb-1'
+                    : 'text-gray-700 hover:text-[#FF9C00]'
                 }`}
               >
                 {link.label}
+                {link.badge && (
+                  <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-[#FF9C00] rounded-full">
+                    {link.badge}
+                  </span>
+                )}
               </Link>
             ))}
           </nav>
@@ -75,9 +80,9 @@ const PostLoginNavbar = () => {
           <div className="flex items-center space-x-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 transition-all hover:scale-110">
+                <button className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FF9C00] hover:bg-[#E08A00] transition-all hover:scale-110">
                   <Avatar className="w-10 h-10">
-                    <AvatarFallback className="bg-pink-600 text-white font-semibold">
+                    <AvatarFallback className="bg-[#FF9C00] text-black font-semibold">
                       {(userData?.school?.charAt(0) || user?.email?.charAt(0) || 'U').toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
