@@ -65,7 +65,7 @@ const Login = () => {
               </div>
             </div>
 
-            <Button onClick={handleLogin} disabled={loading} className="w-full mt-6">
+            <Button onClick={handleLogin} disabled={loading} className="w-full mt-6 bg-[#FF9C00] hover:bg-[#E08A00] text-black font-medium">
               {loading ? 'Logging in...' : 'Login'}
             </Button>
             
@@ -73,7 +73,7 @@ const Login = () => {
 
             <p className="text-center text-sm text-gray-600 mt-6">
               Don't have an account?{' '}
-              <Link to="/signup" className="text-pink-600 hover:underline font-medium">
+              <Link to="/signup" className="text-[#FF9C00] hover:underline font-medium">
                 Sign up
               </Link>
             </p>
