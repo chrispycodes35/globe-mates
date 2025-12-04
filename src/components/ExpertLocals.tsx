@@ -157,7 +157,7 @@ const ExpertLocals = ({ location }: ExpertLocalsProps) => {
                     ))}
                   </div>
 
-                  <button className="w-full mt-4 bg-gradient-to-r from-pink-500 to-orange-500 text-white py-2 rounded-lg hover:from-pink-600 hover:to-orange-600 transition-all flex items-center justify-center gap-2">
+                  <button className="w-full mt-4 bg-[hsl(var(--globemates-gold))] hover:bg-[hsl(var(--globemates-gold-dark))] text-black py-2 rounded-lg transition-all flex items-center justify-center gap-2 font-medium">
                     <MessageCircle className="w-4 h-4" />
                     <span>Connect</span>
                   </button>
