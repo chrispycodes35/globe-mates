@@ -2,8 +2,16 @@ import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { MessageCircle, Star, MapPin, Award } from 'lucide-react';
-import { Avatar, AvatarFallback } from './ui/avatar';
+import { MessageCircle, Star, Award } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+
+// Import expert images
+import expert1Img from '@/assets/experts/expert-1.jpg';
+import expert2Img from '@/assets/experts/expert-2.jpg';
+import expert3Img from '@/assets/experts/expert-3.jpg';
+import expert4Img from '@/assets/experts/expert-4.jpg';
+
+const expertImages = [expert1Img, expert2Img, expert3Img, expert4Img];
 
 interface ExpertLocal {
   id: string;
@@ -109,6 +117,11 @@ const ExpertLocals = ({ location }: ExpertLocalsProps) => {
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">
                   <Avatar className="w-20 h-20">
+                    <AvatarImage 
+                      src={expertImages[experts.indexOf(expert) % expertImages.length]} 
+                      alt={expert.name}
+                      className="object-cover"
+                    />
                     <AvatarFallback className="bg-gradient-to-br from-pink-500 to-orange-500 text-white text-2xl font-bold">
                       {expert.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
@@ -129,7 +142,7 @@ const ExpertLocals = ({ location }: ExpertLocalsProps) => {
                     <span className="font-medium">{expert.title}</span>
                   </div>
                   
-                  <p className="text-sm text-gray-600 line-clamp-3">
+                  <p className="text-sm text-gray-600 line-clamp-2">
                     {expert.bio}
                   </p>
 

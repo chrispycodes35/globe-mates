@@ -70,10 +70,10 @@ const Blog = () => {
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-          const postsData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          })) as BlogPost[];
+          const postsData = querySnapshot.docs.map(doc => {
+            const data = doc.data() as Omit<BlogPost, 'id'>;
+            return { id: doc.id, ...data };
+          }) as BlogPost[];
           setPosts(postsData);
         } else {
           // Fallback to default blog posts
