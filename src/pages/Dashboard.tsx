@@ -83,7 +83,7 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center fade-in-delay-1">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 text-gray-900">
-              Welcome back, {getUserDisplayName()}! 👋
+              Welcome Back, {getUserDisplayName()}! 👋
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-light leading-relaxed mb-8">
               {userData?.location 

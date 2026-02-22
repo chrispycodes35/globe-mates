@@ -25,65 +25,143 @@ const firebaseConfig = {
 // For development, try to use emulator or application default credentials
 // For production, use a service account key file
 let firebaseInitialized = false;
-try {
-  if (!admin.apps.length) {
-    // Try to use service account key if available
-    const serviceAccountPath = process.env.SERVICE_ACCOUNT_KEY_PATH || './serviceAccountKey.json';
-    
-    if (fs.existsSync(serviceAccountPath)) {
-      try {
-        const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-          projectId: "globemates-c35ba",
-        });
-        console.log('✅ Firebase Admin initialized with service account key');
-        firebaseInitialized = true;
-      } catch (parseError) {
-        console.error('❌ Failed to parse service account key:', parseError.message);
-      }
-    } else {
-      // Try to use application default credentials (for emulator or GCP)
-      try {
-        admin.initializeApp({
-          projectId: "globemates-c35ba",
-        });
-        console.log('✅ Firebase Admin initialized with application default credentials');
-        firebaseInitialized = true;
-      } catch (defaultError) {
-        console.warn('⚠️ Application default credentials failed');
-        console.warn('💡 To enable Firebase Admin SDK:');
-        console.warn('   1. Go to: https://console.firebase.google.com/project/globemates-c35ba/settings/serviceaccounts/adminsdk');
-        console.warn('   2. Click "Generate new private key"');
-        console.warn('   3. Save as: backend/serviceAccountKey.json');
-      }
-    }
-  } else {
-    firebaseInitialized = true;
-  }
-} catch (error) {
-  console.error('❌ Firebase Admin initialization failed:', error.message);
-  firebaseInitialized = false;
-}
-
 let db = null;
-if (firebaseInitialized) {
+
+// Helper function to test if Firestore is actually working
+const testFirestoreConnection = async () => {
   try {
-    db = admin.firestore();
-    // Set Firestore to use emulator if specified
-    if (process.env.FIRESTORE_EMULATOR_HOST) {
-      console.log('📡 Using Firestore emulator at:', process.env.FIRESTORE_EMULATOR_HOST);
+    const testDb = admin.firestore();
+    // Try a simple read operation to verify credentials work
+    // Use a timeout to catch credential errors quickly
+    const testPromise = testDb.collection('_test').limit(1).get();
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Connection timeout - credentials may be invalid')), 5000)
+    );
+    await Promise.race([testPromise, timeoutPromise]);
+    return testDb;
+  } catch (error) {
+    // If it's a credentials error, we know Firestore won't work
+    if (error.message && (
+      error.message.includes('credentials') || 
+      error.message.includes('Could not load') ||
+      error.message.includes('authentication') ||
+      error.message.includes('Connection timeout')
+    )) {
+      throw new Error('Firestore credentials not available: ' + error.message);
+    }
+    // For other errors (like collection doesn't exist), Firestore is working
+    return admin.firestore();
+  }
+};
+
+// Initialize Firebase Admin asynchronously
+(async () => {
+  try {
+    if (!admin.apps.length) {
+      // Try to use service account key from environment variable (as JSON string)
+      if (process.env.SERVICE_ACCOUNT_KEY) {
+        try {
+          const serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+          admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            projectId: "globemates-c35ba",
+          });
+          console.log('✅ Firebase Admin initialized with service account key from environment');
+          db = await testFirestoreConnection();
+          firebaseInitialized = true;
+          console.log('✅ Firestore connection verified');
+        } catch (parseError) {
+          console.error('❌ Failed to parse service account key from environment:', parseError.message);
+        }
+      }
+      
+      // If not initialized yet, try service account key file
+      if (!firebaseInitialized) {
+        const serviceAccountPath = process.env.SERVICE_ACCOUNT_KEY_PATH || './serviceAccountKey.json';
+        
+        if (fs.existsSync(serviceAccountPath)) {
+          try {
+            const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              projectId: "globemates-c35ba",
+            });
+            console.log('✅ Firebase Admin initialized with service account key file');
+            db = await testFirestoreConnection();
+            firebaseInitialized = true;
+            console.log('✅ Firestore connection verified');
+          } catch (parseError) {
+            console.error('❌ Failed to parse service account key:', parseError.message);
+          }
+        }
+      }
+      
+      // If still not initialized, try Firestore emulator
+      if (!firebaseInitialized && process.env.FIRESTORE_EMULATOR_HOST) {
+        try {
+          admin.initializeApp({
+            projectId: "globemates-c35ba",
+          });
+          db = admin.firestore();
+          firebaseInitialized = true;
+          console.log('✅ Firebase Admin initialized with Firestore emulator');
+          console.log('📡 Using Firestore emulator at:', process.env.FIRESTORE_EMULATOR_HOST);
+        } catch (emulatorError) {
+          console.error('❌ Failed to initialize with emulator:', emulatorError.message);
+        }
+      }
+      
+      // Last resort: try application default credentials (will likely fail)
+      if (!firebaseInitialized) {
+        try {
+          admin.initializeApp({
+            projectId: "globemates-c35ba",
+          });
+          db = await testFirestoreConnection();
+          firebaseInitialized = true;
+          console.log('✅ Firebase Admin initialized with application default credentials');
+          console.log('📡 Using production Firestore');
+        } catch (defaultError) {
+          console.warn('⚠️ Firebase Admin SDK not configured');
+          console.warn('💡 To enable Firebase Admin SDK, choose one of these options:');
+          console.warn('');
+          console.warn('   Option 1: Service Account Key File (Recommended)');
+          console.warn('   1. Go to: https://console.firebase.google.com/project/globemates-c35ba/settings/serviceaccounts/adminsdk');
+          console.warn('   2. Click "Generate new private key"');
+          console.warn('   3. Save the JSON file as: backend/serviceAccountKey.json');
+          console.warn('');
+          console.warn('   Option 2: Environment Variable');
+          console.warn('   Set SERVICE_ACCOUNT_KEY environment variable with the JSON content');
+          console.warn('');
+          console.warn('   Option 3: Firestore Emulator (for local development)');
+          console.warn('   Set FIRESTORE_EMULATOR_HOST environment variable (e.g., localhost:8080)');
+          console.warn('');
+          firebaseInitialized = false;
+          db = null;
+        }
+      }
     } else {
-      console.log('📡 Using production Firestore');
+      // App already initialized, just test the connection
+      try {
+        db = await testFirestoreConnection();
+        firebaseInitialized = true;
+        console.log('✅ Firebase Admin already initialized, connection verified');
+      } catch (error) {
+        console.error('❌ Firebase Admin initialized but Firestore connection failed:', error.message);
+        firebaseInitialized = false;
+        db = null;
+      }
     }
   } catch (error) {
-    console.error('❌ Failed to initialize Firestore:', error.message);
+    console.error('❌ Firebase Admin initialization failed:', error.message);
+    firebaseInitialized = false;
     db = null;
   }
-} else {
-  console.warn('⚠️ Firestore not initialized - API endpoints will return errors');
-  console.warn('💡 To enable: Download service account key and save as backend/serviceAccountKey.json');
-}
+
+  if (!firebaseInitialized || !db) {
+    console.warn('⚠️ Firestore not available - API endpoints will return errors');
+  }
+})();
 
 // Constants
 const SUPPORTED_CITIES = [
@@ -136,6 +214,21 @@ const initializeDefaultGroups = async () => {
   
   try {
     console.log('🔄 Starting group initialization...');
+    
+    // Test Firestore connection first
+    try {
+      await db.collection('_test_connection').limit(1).get();
+    } catch (testError) {
+      if (testError.message && (
+        testError.message.includes('credentials') || 
+        testError.message.includes('Could not load') ||
+        testError.message.includes('authentication')
+      )) {
+        throw new Error('Firebase credentials not available. Please set up service account key. See server logs for instructions.');
+      }
+      // Other errors (like permission denied) are okay, Firestore is working
+    }
+    
     const groupsToCreate = [];
 
     for (const city of SUPPORTED_CITIES) {
