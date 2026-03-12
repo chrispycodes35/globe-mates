@@ -251,16 +251,5 @@ Potential future improvements:
   - Dependencies listed in `package.json` and `backend/package.json` (React, Express, Firebase, shadcn‑style UI primitives, etc.) are open‑source libraries.
   - Components in `src/components/ui` are based on open‑source UI primitives (e.g., shadcn/ui style) and may have been adapted/customized rather than authored entirely from scratch.
 
-If you have any questions about ownership or want me to walk through any specific section of the code during interviews, I’m happy to do so.
-
 ---
-
-### How This Maps to the Tubi Prompt
-
-- **Frontend component**: React + Vite SPA under `src/` with multiple feature‑rich pages (`Groups`, `Dashboard`, `Profile`, etc.).
-- **Backend component**: Node + Express API in `backend/` with Firebase Admin integration and Firestore persistence.
-- **Architecture overview**: Described above with clear separation of concerns between client, API, and data.
-- **Design decisions & tradeoffs**: Documented in the “Design Decisions & Tradeoffs” section.
-
-This README is designed so you can drop a link to the public GitHub repo and have reviewers quickly understand how to run, explore, and evaluate the system end‑to‑end.
 
